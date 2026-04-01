@@ -1,0 +1,299 @@
+
+<style>
+  * { box-sizing: border-box; }
+  .wrap { font-family: var(--font-sans); padding: 0; }
+
+  .filter-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .filter-btn {
+    padding: 5px 12px; border-radius: 20px; border: 1px solid var(--color-border-secondary);
+    background: transparent; cursor: pointer; font-size: 12px; color: var(--color-text-secondary);
+    transition: all .18s; white-space: nowrap;
+  }
+  .filter-btn:hover { background: var(--color-background-secondary); }
+  .filter-btn.active { font-weight: 500; color: #fff; border-color: transparent; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; }
+
+  .card {
+    border: 0.5px solid var(--color-border-tertiary); border-radius: 12px;
+    padding: 14px; cursor: pointer; transition: all .2s;
+    background: var(--color-background-primary); position: relative;
+  }
+  .card:hover { border-color: var(--color-border-secondary); transform: translateY(-2px); }
+  .card.dimmed { opacity: .25; pointer-events: none; }
+
+  .card-flag { font-size: 28px; line-height: 1; margin-bottom: 6px; }
+  .card-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 2px; }
+  .card-region { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 8px; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+  .tag {
+    font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .importance-bar { margin-top: 6px; }
+  .ib-row { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+  .ib-label { font-size: 10px; color: var(--color-text-secondary); width: 52px; flex-shrink: 0; }
+  .ib-track { flex: 1; height: 5px; background: var(--color-background-secondary); border-radius: 3px; overflow: hidden; }
+  .ib-fill { height: 5px; border-radius: 3px; }
+
+  .detail-panel {
+    display: none; position: fixed; inset: 0; z-index: 100;
+    background: rgba(0,0,0,.35); align-items: center; justify-content: center;
+  }
+  .detail-panel.open { display: flex; }
+  .detail-box {
+    background: var(--color-background-primary); border-radius: 16px;
+    border: 0.5px solid var(--color-border-secondary);
+    padding: 24px; max-width: 420px; width: 90%; position: relative;
+  }
+  .close-btn {
+    position: absolute; top: 14px; right: 16px;
+    background: none; border: none; font-size: 20px; cursor: pointer;
+    color: var(--color-text-secondary); line-height: 1;
+  }
+  .detail-flag { font-size: 48px; margin-bottom: 8px; }
+  .detail-name { font-size: 20px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 2px; }
+  .detail-en { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 14px; }
+  .detail-section { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .05em; margin: 14px 0 6px; }
+  .detail-value { font-size: 13px; color: var(--color-text-primary); line-height: 1.65; }
+  .detail-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 4px; }
+  .key-badge {
+    font-size: 12px; padding: 6px 14px; border-radius: 8px;
+    background: var(--color-background-info); color: var(--color-text-info);
+    border: 0.5px solid var(--color-border-info); font-weight: 500; margin-bottom: 10px; display: inline-block;
+  }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--color-text-secondary); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  .summary-bar { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; margin-bottom: 16px; }
+  .sum-card { background: var(--color-background-secondary); border-radius: 10px; padding: 10px 12px; border: 0.5px solid var(--color-border-tertiary); }
+  .sum-label { font-size: 10px; color: var(--color-text-secondary); margin-bottom: 3px; }
+  .sum-val { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
+</style>
+
+<div class="wrap">
+
+  <div class="summary-bar">
+    <div class="sum-card"><div class="sum-label">現有邦交國</div><div class="sum-val">12 國</div></div>
+    <div class="sum-card"><div class="sum-label">拉美 / 加勒比</div><div class="sum-val">7 國</div></div>
+    <div class="sum-card"><div class="sum-label">大洋洲</div><div class="sum-val">3 國</div></div>
+    <div class="sum-card"><div class="sum-label">歐洲 / 非洲</div><div class="sum-val">各 1 國</div></div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" style="background:#888780;" data-cat="all" onclick="filter('all',this)">全部顯示</button>
+    <button class="filter-btn" data-cat="geo" onclick="filter('geo',this)">🛡️ 地緣戰略</button>
+    <button class="filter-btn" data-cat="voice" onclick="filter('voice',this)">🌐 國際發聲</button>
+    <button class="filter-btn" data-cat="ocean" onclick="filter('ocean',this)">🌊 海洋主權</button>
+    <button class="filter-btn" data-cat="religion" onclick="filter('religion',this)">✝️ 宗教外交</button>
+    <button class="filter-btn" data-cat="demo" onclick="filter('demo',this)">🗳️ 民主同盟</button>
+    <button class="filter-btn" data-cat="aid" onclick="filter('aid',this)">💡 援助典範</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="detail-panel" id="detail" onclick="closeDetail(event)">
+    <div class="detail-box" id="detail-box">
+      <button class="close-btn" onclick="closeDetail()">×</button>
+      <div class="detail-flag" id="d-flag"></div>
+      <div class="detail-name" id="d-name"></div>
+      <div class="detail-en" id="d-en"></div>
+      <div id="d-badge"></div>
+      <div class="detail-section">對台灣的核心重要性</div>
+      <div class="detail-value" id="d-value"></div>
+      <div class="detail-section">Hashtag 標籤</div>
+      <div class="detail-tags" id="d-tags"></div>
+      <div class="detail-section">層次分析法切入點</div>
+      <div class="detail-value" id="d-levels"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CATS = {
+  geo:      { label:'地緣戰略', color:'#185FA5', bg:'#E6F1FB' },
+  voice:    { label:'國際發聲', color:'#0F6E56', bg:'#E1F5EE' },
+  ocean:    { label:'海洋主權', color:'#378ADD', bg:'#E6F1FB' },
+  religion: { label:'宗教外交', color:'#533AB7', bg:'#EEEDFE' },
+  demo:     { label:'民主同盟', color:'#3B6D11', bg:'#EAF3DE' },
+  aid:      { label:'援助典範', color:'#BA7517', bg:'#FAEEDA' },
+};
+
+const REGION_COLOR = {
+  '拉美': '#D85A30', '加勒比': '#185FA5', '大洋洲': '#1D9E75', '歐洲': '#533AB7', '非洲': '#BA7517'
+};
+
+const allies = [
+  {
+    id:'vatican', flag:'🇻🇦', name:'梵蒂岡（教廷）', en:'Holy See', region:'歐洲',
+    cats:['religion','voice','demo'],
+    geo:3, voice:9, stability:7, size:1,
+    key:'全球12億天主教徒的精神領袖，象徵台灣外交的道德正當性',
+    tags:['#唯一歐洲邦交國','#道德外交','#宗教軟實力','#中梵談判變數'],
+    value:'梵蒂岡是台灣在歐洲的唯一正式邦交，其承認對台灣的「民主正當性」具有高度象徵意義。教廷與北京長期因主教任命權談判，梵蒂岡的外交選擇折射出宗教主權與政治現實之間的張力。',
+    levels:'【體系】歐洲地緣政治的例外；【國家】中梵教廷關係是主要變數；【個體】教宗的神學立場影響外交取向'
+  },
+  {
+    id:'paraguay', flag:'🇵🇾', name:'巴拉圭', en:'Paraguay', region:'拉美',
+    cats:['geo','voice','demo'],
+    geo:8, voice:7, stability:8, size:8,
+    key:'南美洲唯一邦交國，最大的「實質大國」盟友',
+    tags:['#南美唯一','#科羅拉多黨反共傳統','#農業大國','#最大領土邦交國'],
+    value:'巴拉圭是12個邦交國中領土最大（40.7萬平方公里）、人口最多的國家，在南美洲的存在賦予台灣不可替代的地區錨點。科羅拉多黨長期執政，有強烈的反共意識形態，使邦交具備深層政治文化基礎。',
+    levels:'【體系】南美地緣政治的楔子，牽制北京在南錐體的影響力；【國家】意識形態認同；【個體】執政黨的歷史傳承'
+  },
+  {
+    id:'guatemala', flag:'🇬🇹', name:'瓜地馬拉', en:'Guatemala', region:'拉美',
+    cats:['geo','voice','demo'],
+    geo:7, voice:6, stability:7, size:7,
+    key:'中美洲人口最多、影響力最大的邦交國',
+    tags:['#中美洲支柱','#民主轉型案例','#農業技術合作','#鄰近美國'],
+    value:'瓜地馬拉是中美洲人口最多的國家（約1,700萬），在CARICOM以外的中美洲次區域具有相當的影響力。2023年新政府就職典禮邀請台灣總統賴清德出席，具有重要的外交信號意義。',
+    levels:'【體系】緊鄰美國後院，美瓜關係直接影響其對台立場；【國家】民主鞏固程度；【個體】阿雷瓦洛政府的價值外交取向'
+  },
+  {
+    id:'belize', flag:'🇧🇿', name:'貝里斯', en:'Belize', region:'拉美',
+    cats:['geo','aid'],
+    geo:5, voice:4, stability:7, size:4,
+    key:'中美洲唯一英語國家，加勒比出海口的戰略位置',
+    tags:['#中美洲唯一英語國','#加勒比出海口','#農漁業合作','#CARICOM成員'],
+    value:'貝里斯是中美洲唯一英語系邦交國，既是中美洲國家，又是CARICOM成員，具有橋接兩個次區域的外交槓桿。台灣在此的農業合作計畫是援助外交的代表性案例。',
+    levels:'【體系】CARICOM與中美洲的雙重成員身份；【國家】小型開放經濟體對援助的依賴；【個體】政黨輪替頻繁但邦交穩定'
+  },
+  {
+    id:'haiti', flag:'🇭🇹', name:'海地', en:'Haiti', region:'加勒比',
+    cats:['aid','geo'],
+    geo:5, voice:3, stability:5, size:3,
+    key:'台灣是其軍隊「唯一裝備供應國」，失能國家中的結構性依賴',
+    tags:['#1956年建交','#失敗國家','#唯一裝備供應國','#中國介入聯合國','#失能反而穩固？'],
+    value:'海地是西半球最貧窮國家，嚴重的幫派問題與政府失能使其高度依賴外援。台灣是其武裝力量重建後唯一的裝備供應國，這種「安全依賴」難以被一次性金援買斷。2024年中國透過支持UNSC決議切入，是台灣須高度警戒的訊號。',
+    levels:'【體系】美國後院 + 中國新路徑介入；【國家】失敗國家特徵使援助槓桿放大；【個體】頻繁政府更替，結構依賴取代個人因素'
+  },
+  {
+    id:'stkitts', flag:'🇰🇳', name:'聖基茨及尼維斯', en:'Saint Kitts and Nevis', region:'加勒比',
+    cats:['voice','demo'],
+    geo:3, voice:4, stability:8, size:2,
+    key:'加勒比海最小主權國，但邦交穩定度高',
+    tags:['#最小邦交國之一','#加勒比穩定盟友','#CARICOM成員','#高邦交穩定性'],
+    value:'聖基茨及尼維斯是西半球面積最小的主權國家之一，但其邦交穩定性在加勒比邦交國中屬於較高水準。對台灣而言，維持此邦交的意義更多在於「數量維護」與加勒比海集體外交的完整性。',
+    levels:'【體系】CARICOM內部壓力有限；【國家】經濟規模小，援助依賴穩定；【個體】歷屆政府均維持邦交'
+  },
+  {
+    id:'lucia', flag:'🇱🇨', name:'聖露西亞', en:'Saint Lucia', region:'加勒比',
+    cats:['aid','demo','voice'],
+    geo:4, voice:5, stability:7, size:3,
+    key:'「乒乓外交」終止的活教材，台灣軟性援助成功的典範',
+    tags:['#乒乓外交','#歷史學習效應','#兩黨均維持承認','#台灣援助社會滲透深'],
+    value:'聖露西亞是唯一曾承認PRC後又回歸承認ROC的國家，其2007年復交後的穩定具有重要示範意義：北京基礎設施投資成效不佳的歷史記憶，加上台灣教育獎學金與農業技術的深度在地化，使「乒乓外交」被本國政治文化所否定。',
+    levels:'【體系】CARICOM壓力持續但可抵禦；【國家】歷史學習效應 + 援助社會滲透；【個體】SLP雖曾斷交，現任政府維持承認'
+  },
+  {
+    id:'svg', flag:'🇻🇨', name:'聖文森及格瑞那丁', en:'Saint Vincent and the Grenadines', region:'加勒比',
+    cats:['aid','geo'],
+    geo:4, voice:4, stability:6, size:3,
+    key:'43年最長不斷邦交，但2025年政黨輪替後最值得追蹤',
+    tags:['#43年不斷交','#貿易42倍落差','#Gonsalves訪台21次','#Friday承諾維持','#觀察中'],
+    value:'聖文森與台灣保持43年不間斷邦交，是加勒比邦交國中連續性最長者。但2024年對中貿易額是對台的42倍，前總理Gonsalves卸任後，新總理Friday（NDP）雖宣示邦交不變，但NDP的歷史立場使2026年成為關鍵觀察期。',
+    levels:'【體系】對中貿易依存與美國支持之間的拉力；【國家】政黨輪替 + 學生獎學金人際網絡；【個體】從Gonsalves到Friday的外交繼承問題'
+  },
+  {
+    id:'marshall', flag:'🇲🇭', name:'馬紹爾群島', en:'Marshall Islands', region:'大洋洲',
+    cats:['ocean','geo','voice'],
+    geo:7, voice:6, stability:8, size:4,
+    key:'太平洋島鏈戰略節點，UNCLOS下的海洋主權盟友',
+    tags:['#太平洋島鏈','#UNCLOS發聲','#美國信託管轄歷史','#核試驗歷史','#氣候危機'],
+    value:'馬紹爾群島位於西太平洋戰略要地，在美國島鏈防衛體系中具有獨特地位。其在UNCLOS框架下的海洋主權立場與台灣利益高度一致。台灣總統賴清德2024年親訪馬紹爾，象徵此邦交的高度優先性。',
+    levels:'【體系】美國信託管轄歷史使其外交高度親美；【國家】氣候變遷存亡威脅影響外交考量；【個體】與台灣總統頻繁高層互動'
+  },
+  {
+    id:'palau', flag:'🇵🇼', name:'帛琉', en:'Palau', region:'大洋洲',
+    cats:['ocean','geo','demo'],
+    geo:9, voice:5, stability:9, size:4,
+    key:'距台灣最近的邦交國，太平洋防衛第一島鏈關鍵',
+    tags:['#距台灣最近','#第一島鏈','#美國密克羅尼西亞盟友','#最高穩定性','#台灣旅遊大市場'],
+    value:'帛琉是距離台灣最近的邦交國（約1,300公里），在第一島鏈防衛體系中具有無可替代的戰略地位。帛琉與美國簽有《自由聯合協定》，其親台立場獲得美國的隱性背書。邦交穩定性在12國中屬最高。',
+    levels:'【體系】美帛自由聯合協定使地緣戰略嵌套；【國家】旅遊業對台灣客源的依賴；【個體】歷屆政府均高度支持台灣'
+  },
+  {
+    id:'tuvalu', flag:'🇹🇻', name:'吐瓦魯', en:'Tuvalu', region:'大洋洲',
+    cats:['ocean','voice','geo'],
+    geo:5, voice:5, stability:7, size:2,
+    key:'海平面上升生存威脅，氣候外交與台灣互利',
+    tags:['#海平面上升威脅','#氣候外交','#UNCLOS','#太平洋小島國家聯盟','#生存外交'],
+    value:'吐瓦魯是全球最受氣候變遷威脅的國家之一，其外交選擇受生存需求主導。台灣在氣候援助與基礎設施建設上的投入，使兩國形成「共同生存邏輯」。吐瓦魯在太平洋小島國家論壇上為台灣發聲，具有獨特的多邊價值。',
+    levels:'【體系】氣候危機重塑其外交優先序；【國家】生存型小國外交；【個體】歷屆政府均將台灣視為可靠援助夥伴'
+  },
+  {
+    id:'eswatini', flag:'🇸🇿', name:'史瓦帝尼', en:'Eswatini', region:'非洲',
+    cats:['geo','demo','voice'],
+    geo:6, voice:5, stability:7, size:4,
+    key:'非洲唯一邦交國，台灣在非洲大陸的象徵存在',
+    tags:['#非洲唯一邦交國','#絕對君主制','#國王個人決策','#非洲聯盟發聲','#台灣紡織業基地'],
+    value:'史瓦帝尼是台灣在非洲大陸的唯一正式邦交國，具有高度象徵意義。作為世界上少數的絕對君主制國家，其邦交穩定性高度依賴國王恩史瓦帝三世的個人意志。台灣在此有紡織業投資，是援助外交與經濟合作並行的案例。',
+    levels:'【體系】非洲聯盟大多承認PRC，史瓦帝尼是孤立的例外；【國家】絕對君主制，政黨輪替風險為零；【個體】國王個人決策完全主導外交取向'
+  },
+];
+
+const catColors = { geo:'#185FA5', voice:'#0F6E56', ocean:'#378ADD', religion:'#533AB7', demo:'#3B6D11', aid:'#BA7517' };
+const catLabels = { geo:'🛡️地緣', voice:'🌐發聲', ocean:'🌊海洋', religion:'✝️宗教', demo:'🗳️民主', aid:'💡援助' };
+
+function buildCards(filteredCat) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  allies.forEach(a => {
+    const dim = filteredCat === 'all' || a.cats.includes(filteredCat);
+    const card = document.createElement('div');
+    card.className = 'card' + (dim ? '' : ' dimmed');
+    const rColor = REGION_COLOR[a.region] || '#888';
+    const tagHtml = a.cats.map(c => `<span class="tag" style="background:${catColors[c]}22;color:${catColors[c]};border:0.5px solid ${catColors[c]}55;">${catLabels[c]}</span>`).join('');
+    const bars = [
+      { l:'地緣', v: a.geo,       c:'#185FA5' },
+      { l:'發聲', v: a.voice,     c:'#0F6E56' },
+      { l:'穩定', v: a.stability, c:'#1D9E75' },
+    ];
+    const barHtml = bars.map(b =>
+      `<div class="ib-row"><span class="ib-label">${b.l}</span><div class="ib-track"><div class="ib-fill" style="width:${b.v*10}%;background:${b.c};"></div></div></div>`
+    ).join('');
+    card.innerHTML = `
+      <div style="position:absolute;top:10px;right:10px;font-size:9px;padding:2px 7px;border-radius:10px;background:${rColor}18;color:${rColor};font-weight:500;">${a.region}</div>
+      <div class="card-flag">${a.flag}</div>
+      <div class="card-name">${a.name}</div>
+      <div class="tags">${tagHtml}</div>
+      <div class="importance-bar">${barHtml}</div>
+    `;
+    card.onclick = () => openDetail(a);
+    grid.appendChild(card);
+  });
+}
+
+function filter(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const colors = { all:'#888780', geo:'#185FA5', voice:'#0F6E56', ocean:'#378ADD', religion:'#533AB7', demo:'#3B6D11', aid:'#BA7517' };
+  btn.style.background = colors[cat] || '#888780';
+  buildCards(cat);
+}
+
+function openDetail(a) {
+  document.getElementById('d-flag').textContent = a.flag;
+  document.getElementById('d-name').textContent = a.name;
+  document.getElementById('d-en').textContent = a.en + '　' + a.region;
+  document.getElementById('d-badge').innerHTML = `<span class="key-badge">核心價值：${a.key}</span>`;
+  document.getElementById('d-value').textContent = a.value;
+  document.getElementById('d-tags').innerHTML = a.tags.map(t => `<span class="tag" style="background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-secondary);font-size:11px;padding:3px 9px;">${t}</span>`).join('');
+  document.getElementById('d-levels').textContent = a.levels;
+  document.getElementById('detail').classList.add('open');
+}
+
+function closeDetail(e) {
+  if (!e || e.target === document.getElementById('detail')) {
+    document.getElementById('detail').classList.remove('open');
+  }
+}
+
+buildCards('all');
+</script>
