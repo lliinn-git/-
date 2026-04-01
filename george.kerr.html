@@ -1,0 +1,159 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.wrap { padding: 1.5rem 0; }
+.hero { background: #6B5344; border-radius: var(--border-radius-lg); padding: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1.25rem; }
+.avatar { width: 64px; height: 64px; border-radius: 50%; background: #C4A882; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 500; color: #3D2B1F; flex-shrink: 0; }
+.hero-text h1 { font-size: 20px; font-weight: 500; color: #F5ECD7; }
+.hero-text .sub { font-size: 13px; color: #C4A882; margin-top: 4px; }
+.hero-text .dates { font-size: 12px; color: #A08060; margin-top: 4px; }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; }
+.tab { padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; border: 0.5px solid #C4A882; color: #7A5C3E; background: transparent; transition: all 0.15s; }
+.tab.active { background: #6B5344; color: #F5ECD7; border-color: #6B5344; }
+.section { display: none; }
+.section.active { display: block; }
+.timeline { position: relative; padding-left: 20px; }
+.timeline::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 1.5px; background: #C4A882; }
+.tl-item { position: relative; margin-bottom: 1.25rem; }
+.tl-dot { position: absolute; left: -18px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: #6B5344; border: 2px solid #C4A882; }
+.tl-year { font-size: 11px; font-weight: 500; color: #A08060; margin-bottom: 2px; }
+.tl-text { font-size: 14px; color: var(--color-text-primary); line-height: 1.5; }
+.card { background: #F9F4EC; border: 0.5px solid #D4B896; border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.card-title { font-size: 13px; font-weight: 500; color: #6B5344; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.icon { width: 18px; height: 18px; border-radius: 4px; background: #6B5344; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.icon svg { width: 11px; height: 11px; fill: #F5ECD7; }
+.card-body { font-size: 14px; color: var(--color-text-secondary); line-height: 1.65; }
+.quote { border-left: 3px solid #C4A882; padding-left: 1rem; margin: 0.75rem 0; font-size: 14px; color: var(--color-text-secondary); font-style: italic; line-height: 1.6; }
+.book-chip { display: inline-block; background: #6B5344; color: #F5ECD7; font-size: 11px; padding: 3px 10px; border-radius: 20px; margin: 3px 3px 3px 0; }
+.stat-row { display: flex; gap: 10px; margin-bottom: 1rem; }
+.stat { flex: 1; background: #F9F4EC; border: 0.5px solid #D4B896; border-radius: var(--border-radius-md); padding: 0.75rem; text-align: center; }
+.stat-num { font-size: 22px; font-weight: 500; color: #6B5344; }
+.stat-label { font-size: 11px; color: #A08060; margin-top: 2px; }
+.tag { display: inline-block; font-size: 12px; padding: 3px 10px; border-radius: 20px; margin: 3px 3px 3px 0; background: #EDE0D0; color: #6B5344; border: 0.5px solid #C4A882; }
+@media (prefers-color-scheme: dark) {
+  .hero { background: #3D2B1F; }
+  .hero-text h1 { color: #F5ECD7; }
+  .hero-text .sub { color: #A08060; }
+  .card { background: #2C2018; border-color: #6B5344; }
+  .tab { border-color: #6B5344; color: #C4A882; }
+  .tab.active { background: #6B5344; color: #F5ECD7; }
+  .tag { background: #3D2B1F; color: #C4A882; border-color: #6B5344; }
+  .stat { background: #2C2018; border-color: #6B5344; }
+  .timeline::before { background: #6B5344; }
+  .tl-dot { background: #3D2B1F; border-color: #A08060; }
+}
+</style>
+<div class="wrap">
+  <div class="hero">
+    <div class="avatar">葛</div>
+    <div class="hero-text">
+      <h1>葛超智 George H. Kerr</h1>
+      <div class="sub">美國歷史學者・外交官・台灣之友</div>
+      <div class="dates">1911年11月7日 — 1992年8月27日</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="show('bio')">生平歷程</button>
+    <button class="tab" onclick="show('role')">對台重要性</button>
+    <button class="tab" onclick="show('228')">二二八見證</button>
+    <button class="tab" onclick="show('works')">著作影響</button>
+  </div>
+
+  <div id="bio" class="section active">
+    <div class="stat-row">
+      <div class="stat"><div class="stat-num">4年</div><div class="stat-label">台灣教學時光</div></div>
+      <div class="stat"><div class="stat-num">30年</div><div class="stat-label">關注台灣事務</div></div>
+      <div class="stat"><div class="stat-num">5本</div><div class="stat-label">重要著作</div></div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1911</div><div class="tl-text">生於美國賓州，成長於長老教會家庭</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1935–1937</div><div class="tl-text">赴日本深造，研究傳統藝術與歷史</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1937–1941</div><div class="tl-text">於台北高等學校、台北高商任英文教師，結交大批台灣友人</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1942–1945</div><div class="tl-text">擔任美國國防部「X島計畫」台灣專家，主持海軍台灣研究小組</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1945–1947</div><div class="tl-text">以美國駐台北副領事身份再度來台，親歷二二八事件</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1947後</div><div class="tl-text">憤而離開外交界，轉入學術界，先後執教於史丹福、夏威夷大學等名校</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1965</div><div class="tl-text">出版《被出賣的台灣》，震撼台灣海外社群</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1992</div><div class="tl-text">逝世於夏威夷檀香山，享年81歲</div></div>
+    </div>
+  </div>
+
+  <div id="role" class="section">
+    <div class="card">
+      <div class="card-title"><span class="icon"><svg viewBox="0 0 12 12"><path d="M6 1L7.5 4.5H11L8.5 6.5L9.5 10L6 8L2.5 10L3.5 6.5L1 4.5H4.5Z"/></svg></span>首位系統性台灣史觀奠基者</div>
+      <div class="card-body">最早以「台灣島海洋史觀」重新詮釋台灣歷史，從日治、接收到國共內戰，建立完整的史學框架，突破以中國為中心的歷史敘述。</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon"><svg viewBox="0 0 12 12"><path d="M2 2h8v1H2zm0 3h8v1H2zm0 3h5v1H2z"/></svg></span>「台灣託管論」的首倡者</div>
+      <div class="card-body">二戰後主張台灣應由聯合國或美國託管，反對逕行移交中華民國；1949年更提出「美國計畫」備忘錄，呼籲阻止國民黨撤台，力主台灣人自治。雖未獲採納，卻奠定了後來台灣自決論述的思想基礎。</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon"><svg viewBox="0 0 12 12"><path d="M6 1a5 5 0 100 10A5 5 0 006 1zm-.5 2.5h1V7h-1zm0 4h1v1h-1z"/></svg></span>台灣人身份意識的啟蒙推手</div>
+      <div class="card-body">其著作讓長期被國民黨官方史觀灌輸的海外留學生重新認識台灣歷史，成功引發歷史意識的覺醒，間接催生了多個海外台灣人政治運動。</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon"><svg viewBox="0 0 12 12"><path d="M1 9V3l5-2 5 2v6l-5 2z"/></svg></span>對美外交的台灣聲音</div>
+      <div class="card-body">在外交官任內不斷向美國政府揭露國民黨在台惡行，是當時少數敢於挑戰官方立場的美國官員，雖屢遭忽視，仍留下大量解密文件成為珍貴史料。</div>
+    </div>
+  </div>
+
+  <div id="228" class="section">
+    <div class="card">
+      <div class="card-title">目擊「長官公署開槍事件」</div>
+      <div class="card-body">
+        1947年2月28日，葛超智正在長官公署附近用餐，親眼目睹台北市民遊行請願時遭機關槍掃射。他隨即將吉普車開至軍隊與民眾之間阻擋，並協助將傷患送醫。
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">被迫驅逐出境</div>
+      <div class="card-body">
+        事件後，葛超智很快遭中華民國當局驅逐出境。返回華府後，他立即向長官建議以聯合國共管台灣，卻得到遠東司司長回應：
+        <div class="quote">「在聯合國及華府，沒有任何人會對台灣發生興趣。」</div>
+        此後他深感悲憤，認為美國輕忽台灣，才導致台灣人被屠戮的悲劇。
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">留下最珍貴的外國目擊者記錄</div>
+      <div class="card-body">二二八事件發生時，葛超智是少數在場的外國外交官，其目擊紀錄、往來電報與解密文件，至今仍是台灣歷史學者研究這段歷史不可或缺的第一手資料。</div>
+    </div>
+  </div>
+
+  <div id="works" class="section">
+    <div class="card">
+      <div class="card-title">主要著作</div>
+      <div class="card-body">
+        <span class="book-chip">被出賣的台灣 1965</span>
+        <span class="book-chip">福摩沙：自治運動 1965</span>
+        <span class="book-chip">台灣對峙危機 1986</span>
+        <span class="book-chip">沖繩：島民的歷史 1958</span>
+        <br><br>
+        《被出賣的台灣》（Formosa Betrayed）是第一本詳細記錄台灣戰後史與二二八事件前因後果的書籍，1965年問世，1973年由海外台灣留學生譯為中文秘密流傳，1991年才正式在台出版。
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">對台灣社會的影響</div>
+      <div class="card-body">這本書讓許多人擺脫國民黨官方意識形態，透過歷史意識的啟蒙，投入海外獨立運動。其史料至今仍被學術界、228紀念館廣泛引用。</div>
+    </div>
+    <div class="card">
+      <div class="card-title">關鍵詞</div>
+      <div class="card-body">
+        <span class="tag">二二八見證者</span>
+        <span class="tag">台灣託管論</span>
+        <span class="tag">台灣海洋史觀</span>
+        <span class="tag">美國外交官</span>
+        <span class="tag">台灣自決倡議</span>
+        <span class="tag">海外獨立運動</span>
+        <span class="tag">島國知音</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
