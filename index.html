@@ -1,0 +1,422 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Serif TC','Source Han Serif TC',serif;}
+
+:root{
+  --ink:#2c2c2a;
+  --ink2:#5f5e5a;
+  --ink3:#888780;
+  --bg:#f9f8f5;
+  --bg2:#f1efe8;
+  --line:#d3d1c7;
+  --accent:#3c3489;
+  --accent-light:#eeedfe;
+  --warm:#ba7517;
+  --warm-light:#faeeda;
+  --teal:#0f6e56;
+  --teal-light:#e1f5ee;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --ink:#d3d1c7;
+    --ink2:#b4b2a9;
+    --ink3:#888780;
+    --bg:#1a1a18;
+    --bg2:#222220;
+    --line:#3a3a38;
+    --accent:#afa9ec;
+    --accent-light:#26215c;
+    --warm:#fac775;
+    --warm-light:#412402;
+    --teal:#5dcaa5;
+    --teal-light:#04342c;
+  }
+}
+
+.container{max-width:680px;margin:0 auto;padding:1.5rem 1rem 2rem;}
+
+.nav-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem;}
+.pill{
+  padding:5px 14px;font-size:13px;cursor:pointer;
+  border:0.5px solid var(--line);border-radius:999px;
+  color:var(--ink2);background:transparent;font-family:inherit;
+  transition:all .15s;
+}
+.pill:hover{border-color:var(--accent);color:var(--accent);}
+.pill.active{background:var(--accent-light);border-color:var(--accent);color:var(--accent);font-weight:500;}
+
+.section{display:none;}
+.section.active{display:block;}
+
+.section-title{
+  font-size:18px;font-weight:700;color:var(--ink);
+  margin-bottom:1.2rem;padding-bottom:.6rem;
+  border-bottom:0.5px solid var(--line);letter-spacing:.04em;
+}
+
+.card{
+  border:0.5px solid var(--line);border-radius:12px;
+  padding:1rem 1.25rem;background:transparent;
+  margin-bottom:.75rem;transition:border-color .15s;
+}
+.card:hover{border-color:var(--accent);}
+
+.card-label{
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:.4rem;
+}
+.card-title{
+  font-size:15px;font-weight:700;color:var(--ink);
+  margin-bottom:.4rem;
+}
+.card-body{font-size:14px;line-height:1.8;color:var(--ink2);}
+
+.highlight{
+  background:var(--accent-light);border-left:3px solid var(--accent);
+  padding:.7rem 1rem;border-radius:0 8px 8px 0;
+  font-size:14px;line-height:1.8;color:var(--ink);
+  margin:.75rem 0;font-style:italic;
+}
+.highlight-warm{
+  background:var(--warm-light);border-left:3px solid var(--warm);
+  padding:.7rem 1rem;border-radius:0 8px 8px 0;
+  font-size:14px;line-height:1.8;color:var(--ink);
+  margin:.75rem 0;
+}
+.highlight-teal{
+  background:var(--teal-light);border-left:3px solid var(--teal);
+  padding:.7rem 1rem;border-radius:0 8px 8px 0;
+  font-size:14px;line-height:1.8;color:var(--ink);
+  margin:.75rem 0;
+}
+
+.tag{
+  display:inline-block;font-size:11px;padding:2px 8px;
+  border-radius:4px;margin-right:4px;font-weight:500;
+}
+.tag-p{background:var(--accent-light);color:var(--accent);}
+.tag-s{background:var(--teal-light);color:var(--teal);}
+.tag-w{background:var(--warm-light);color:var(--warm);}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+@media(max-width:480px){.two-col{grid-template-columns:1fr;}}
+
+.vs-divider{
+  display:flex;align-items:center;gap:8px;margin:.6rem 0;
+  font-size:11px;letter-spacing:.08em;color:var(--ink3);
+}
+.vs-divider::before,.vs-divider::after{
+  content:'';flex:1;height:0.5px;background:var(--line);
+}
+
+.timeline{position:relative;padding-left:20px;margin:.5rem 0;}
+.timeline::before{
+  content:'';position:absolute;left:4px;top:0;bottom:0;
+  width:0.5px;background:var(--line);
+}
+.tl-item{position:relative;margin-bottom:.85rem;}
+.tl-item::before{
+  content:'';position:absolute;left:-19px;top:6px;
+  width:7px;height:7px;border-radius:50%;
+  background:var(--accent);
+}
+.tl-item-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:.2rem;}
+.tl-item-body{font-size:13px;line-height:1.7;color:var(--ink2);}
+
+.expand-btn{
+  width:100%;text-align:left;background:none;border:none;
+  cursor:pointer;padding:.6rem 0;font-family:inherit;
+  font-size:14px;color:var(--ink2);display:flex;
+  justify-content:space-between;align-items:center;
+}
+.expand-btn:hover{color:var(--accent);}
+.expand-content{display:none;padding-bottom:.5rem;}
+.expand-content.open{display:block;}
+.arrow-icon{transition:transform .2s;font-size:12px;}
+.arrow-icon.open{transform:rotate(90deg);}
+</style>
+
+<div class="container">
+  <div style="margin-bottom:1.5rem;">
+    <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.3rem;">當代社會學理論</div>
+    <div style="font-size:22px;font-weight:700;color:var(--ink);letter-spacing:.02em;">污名（Stigma）</div>
+    <div style="font-size:13px;color:var(--ink3);margin-top:.3rem;">Erving Goffman・管理受損身分的筆記（1963）</div>
+  </div>
+
+  <div class="nav-pills">
+    <button class="pill active" onclick="show('概念')">核心概念</button>
+    <button class="pill" onclick="show('來源')">污名的來源</button>
+    <button class="pill" onclick="show('管理')">污名管理</button>
+    <button class="pill" onclick="show('接觸')">混類接觸</button>
+    <button class="pill" onclick="show('生涯')">道德生涯</button>
+    <button class="pill" onclick="show('支持')">支持網絡</button>
+  </div>
+
+  <!-- 核心概念 -->
+  <div id="s-概念" class="section active">
+    <div class="section-title">核心概念</div>
+
+    <div class="highlight">
+      「原本應該在一般社會交往中很容易被接納的個人，只因為具備一項突兀的特質，而使他遇到的人對他產生厭惡，破壞了他的其餘屬性所該得到的對待。」
+    </div>
+
+    <div class="card">
+      <div class="card-label">定義</div>
+      <div class="card-title">污名是什麼？</div>
+      <div class="card-body">
+        被高度貶抑的個人<strong>特質（attribute）</strong>，特別是外觀可見者。貶抑的來源<strong>不是特質本身</strong>，而是<strong>關係性的</strong>——意義來自情境與他人的詮釋框架。
+        <div style="margin-top:.6rem;">
+          <span class="tag tag-p">虛擬社會身分</span>他人的預期
+          <span class="tag tag-s" style="margin-left:8px;">真實社會身分</span>實際擁有的特質
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-label">正常人</div>
+        <div class="card-title">Normals</div>
+        <div class="card-body">並未負面地偏離於人們所關切的特定預期者。對受污名者施加各式歧視，建構出污名理論作為意識形態。</div>
+      </div>
+      <div class="card">
+        <div class="card-label">受污名者</div>
+        <div class="card-title">Stigmatized</div>
+        <div class="card-body">被認為並非完整的人。不得不承認正常人不會接受他，污名讓他時時感到丟臉與緊張。</div>
+      </div>
+    </div>
+
+    <div class="highlight-warm">
+      <strong>重要洞見：</strong>每個人都有被污名的潛力，因為貶抑的來源是關係性的，而非特質本身。「教育程度低是污名嗎？亞斯伯格症呢？」——答案取決於情境。
+    </div>
+  </div>
+
+  <!-- 污名的來源 -->
+  <div id="s-來源" class="section">
+    <div class="section-title">污名的來源</div>
+
+    <div class="two-col" style="margin-bottom:.75rem;">
+      <div class="card" style="border-color:var(--accent);">
+        <div class="card-label" style="color:var(--accent);">身體的</div>
+        <div class="card-title">Physical</div>
+        <div class="card-body">身障、殘缺、記號、疾病標記等可見的身體差異。</div>
+      </div>
+      <div class="card" style="border-color:var(--warm);">
+        <div class="card-label" style="color:var(--warm);">性格的</div>
+        <div class="card-title">Character</div>
+        <div class="card-body">不被鼓勵的個性表現；如意志薄弱、不誠實、成癮等。</div>
+      </div>
+    </div>
+    <div class="card" style="border-color:var(--teal);margin-bottom:1rem;">
+      <div class="card-label" style="color:var(--teal);">族群的</div>
+      <div class="card-title">Tribal</div>
+      <div class="card-body">種族、性別、宗教、家族的群體歸屬，可透過血統傳遞。</div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">擴大解釋</div>
+      <div class="card-title">現代日常案例</div>
+      <div class="card-body" style="line-height:2;">
+        失業・有前科者・打老婆・外遇・離婚・菸槍・同性戀（歷史上）・精神疾病・肥胖
+        <div class="highlight-teal" style="margin-top:.6rem;font-style:normal;">
+          污名不一定有固定答案。同一特質，在不同社會、不同情境下，可能是污名也可能不是。
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">兩種狀態</div>
+      <div class="card-title">明貶者 vs 可貶者</div>
+      <div class="card-body">
+        <div class="two-col">
+          <div>
+            <strong>明貶者（discredited）</strong><br>
+            <span style="font-size:13px;color:var(--ink2);">污名已被在場的人知道或明顯可見，必須當場處理。</span>
+          </div>
+          <div>
+            <strong>可貶者（discreditable）</strong><br>
+            <span style="font-size:13px;color:var(--ink2);">污名尚未被人知道或察覺，需要透過資訊控制加以管理。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 污名管理 -->
+  <div id="s-管理" class="section">
+    <div class="section-title">污名管理</div>
+    <div class="card-body" style="margin-bottom:.75rem;color:var(--ink2);font-size:14px;">
+      被污名化的人透過<strong>控制資訊</strong>進行印象管理（impression management）。
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-item-title">① 嘗試修正或掩蓋</div>
+        <div class="tl-item-body">試圖改變或隱藏被污名化的部分。<br><span style="color:var(--warm);">⚠ 反而容易成為受害者，因為太想修正污名，反而暴露自己。</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-item-title">② 精通「不適合他」的領域</div>
+        <div class="tl-item-body">做個 120% 的正常人。「因為不是，才要努力做。」以超出常人的表現來抵銷污名。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-item-title">③ 用污名解釋失敗</div>
+        <div class="tl-item-body">將失敗歸因於污名，得到間接好處——免除社會責任，作為防衛機制。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-item-title">④ 把污名視為考驗</div>
+        <div class="tl-item-body">將污名重新框架為讓自己比正常人更好的契機，轉化為正向敘事。</div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      「受污名者並非完整的人。基於這樣的預設，我們會施加各式各樣的歧視，藉以有效的（即使經常是不假思索的）減少他的生命機會。」（p.6）
+    </div>
+
+    <div class="card">
+      <button class="expand-btn" onclick="toggle(this)">
+        <span>受污名者的緊張狀態</span>
+        <span class="arrow-icon">▶</span>
+      </button>
+      <div class="expand-content">
+        <div class="card-body">
+          想如正常人般存在，卻又不得不承認正常人不會接受他。污名讓他時時刻刻感到<strong>丟臉</strong>。<br><br>
+          在混類接觸中，受污名者會感到：被窺伺、不知正常人「真正」的看法為何（真好心還是想來笑我？）、錯誤舉動都將被歸類到他的污名、退縮、懷有敵意。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 混類接觸 -->
+  <div id="s-接觸" class="section">
+    <div class="section-title">混類接觸（Mixed Contact）</div>
+
+    <div class="highlight">
+      「受污名者與正常人處在同一個社會情境的時刻……正是對這種接觸的預期，很自然地導致正常人與受污名者會去安排生活以避免接觸。」（p.14–15）
+    </div>
+
+    <div class="vs-divider">為何讓雙方不舒服？</div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-label" style="color:var(--accent);">對受污名者</div>
+        <div class="card-body" style="font-size:13px;line-height:1.8;">
+          ・感到被窺伺<br>
+          ・不知正常人「真正」看法<br>
+          ・錯誤舉動被歸因污名<br>
+          ・退縮、懷有敵意
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:var(--warm);">對正常人</div>
+        <div class="card-body" style="font-size:13px;line-height:1.8;">
+          ・受污名者難互動<br>
+          ・「要馬太攻擊，要馬太害羞」<br>
+          ・要看到污名嗎？<br>
+          ・還是假裝沒看到？
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-teal">
+      「既然受污名者或許比我們更常面對這些情境，他將可能變得更熟練於情緒管理。」（p.23）
+    </div>
+
+    <div class="card">
+      <div class="card-label">關鍵概念</div>
+      <div class="card-title">無限倒退（Infinite Regress）</div>
+      <div class="card-body">
+        混類接觸設下舞台，米德學派的社會心理學告訴我們如何開始——受污名者與正常人雙方都感到不自在。受污名者必須維持自我意識並計算；他覺得自己的細微成就可能被評斷，為在這種環境下能力卓著的徵兆。
+      </div>
+    </div>
+  </div>
+
+  <!-- 道德生涯 -->
+  <div id="s-生涯" class="section">
+    <div class="section-title">道德生涯（Moral Career）</div>
+    <div class="card-body" style="margin-bottom:.75rem;color:var(--ink2);font-size:14px;">
+      受污名者學習適應他們處境的個人調適過程，同時也是結果。
+    </div>
+
+    <div class="card">
+      <div class="card-label">四種社會化模式</div>
+      <div class="card-title">以下以討論</div>
+    </div>
+
+    <div class="timeline" style="margin-top:.5rem;">
+      <div class="tl-item">
+        <div class="tl-item-title">① 與生俱來的污名</div>
+        <div class="tl-item-body">從出生即具有的污名。家庭可為孩子建立一個密封的膠囊，透過資訊控制讓孩子受到周密保護，但孩子終將接觸外部世界。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-item-title">② 被充分保護的污名</div>
+        <div class="tl-item-body">污名源自家庭（以及很小範圍的當地街坊）。孩子自始即知道自己的污名，但學習了社會中其他觀念，讓被封裝的膠囊施了魔咒。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-item-title">③ 成長中所獲得的污名</div>
+        <div class="tl-item-body">在生命某個節點「發現」自己的特殊問題。此前以為自己是可貶者或正常人，之後需要重新評估自我認同。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-item-title">④ 在異族社群中被社會化</div>
+        <div class="tl-item-body">醫療專業人員的特殊任務——要讓病患知道他將成為怎麼樣的人，同時需要重新組建對他族群位置的認知。</div>
+      </div>
+    </div>
+
+    <div class="highlight-warm">
+      <strong>關鍵觀察：</strong>不同的道德生涯模式，對於污名管理與自我形成有截然不同的影響。「無聲的世界並不是悲傷的世界。」
+    </div>
+  </div>
+
+  <!-- 支持網絡 -->
+  <div id="s-支持" class="section">
+    <div class="section-title">支持網絡</div>
+    <div class="card-body" style="margin-bottom:.75rem;color:var(--ink2);font-size:14px;">
+      能讓受污名者感到正常的兩種人。
+    </div>
+
+    <div class="two-col">
+      <div class="card" style="border-color:var(--accent);">
+        <div class="card-label" style="color:var(--accent);">自己人 The Own</div>
+        <div class="card-body" style="font-size:13px;line-height:1.8;">
+          共同承擔污名的人，形成團體基礎。支持代表他們的代理人與機構。<br><br>
+          <span style="color:var(--warm);">⚠ 問題：</span>比較特別（有能力、有名望）的受污名者成為代表，但這些人慢慢<strong>無法代表</strong>一般受污名者（從拐杖變成高爾夫球桿）——造成系統性偏誤。
+        </div>
+      </div>
+      <div class="card" style="border-color:var(--teal);">
+        <div class="card-label" style="color:var(--teal);">知情者 The Wise</div>
+        <div class="card-body" style="font-size:13px;line-height:1.8;">
+          因為自身的特殊處境而對污名者有深度理解的正常人（如殘障者的父母、照護者）。<br><br>
+          他們被受污名者視為可以分享感受的對象，有時能提供「正常化」的處境。
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <button class="expand-btn" onclick="toggle(this)">
+        <span>污名政治（Stigma Politics）</span>
+        <span class="arrow-icon">▶</span>
+      </button>
+      <div class="expand-content">
+        <div class="card-body">
+          受污名群體透過組織向公眾軟化其社會標籤。「他的」團體真實存在並且投入依戀情感。在刊物中，系統地閱述出受污名者值得稱道的行為規則，並傳頌那些同化了正常人所接受的新領域的英雄或歷史人物。<br><br>
+          <span style="color:var(--warm);">⚠ 代表性問題：</span>領導者有義務結交其他類別的代表；他們不再倚靠原本的封閉圈子——可能導致兩個特點的發現：為了替他們的污名建立專業，身為自己人的領導者……
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+function toggle(btn) {
+  const content = btn.nextElementSibling;
+  const icon = btn.querySelector('.arrow-icon');
+  content.classList.toggle('open');
+  icon.classList.toggle('open');
+}
+</script>
