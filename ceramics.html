@@ -1,0 +1,314 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-sans);}
+.nb{padding:1rem 0;}
+.unit{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:10px;overflow:hidden;}
+.unit-hd{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none;background:var(--color-background-primary);}
+.unit-hd:hover{background:var(--color-background-secondary);}
+.unit-icon{width:28px;height:28px;border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.unit-title{font-size:15px;font-weight:500;color:var(--color-text-primary);flex:1;}
+.unit-meta{font-size:12px;color:var(--color-text-tertiary);}
+.chevron{width:16px;height:16px;color:var(--color-text-tertiary);transition:transform 0.2s;flex-shrink:0;}
+.chevron.open{transform:rotate(90deg);}
+.unit-body{display:none;border-top:0.5px solid var(--color-border-tertiary);}
+.unit-body.open{display:block;}
+.section{padding:12px 16px;border-bottom:0.5px solid var(--color-border-tertiary);}
+.section:last-child{border-bottom:none;}
+.sec-label{font-size:11px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:8px;}
+.entry{margin-bottom:8px;padding:8px 10px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);}
+.entry:last-child{margin-bottom:0;}
+.entry-q{font-size:13px;color:var(--color-text-secondary);margin-bottom:4px;}
+.entry-a{font-size:14px;color:var(--color-text-primary);line-height:1.5;}
+.must{display:inline-block;font-size:10px;padding:1px 6px;border-radius:10px;background:#FAEEDA;color:#633806;font-weight:500;margin-left:6px;vertical-align:middle;}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.col-card{padding:10px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);}
+.col-label{font-size:11px;font-weight:500;margin-bottom:6px;}
+.col-n .col-label{color:#185FA5;}
+.col-s .col-label{color:#0F6E56;}
+.col-row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);}
+.col-row:last-child{border-bottom:none;}
+.col-row span:last-child{color:var(--color-text-primary);text-align:right;max-width:55%;}
+.kiln-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:8px;}
+.kiln-card{padding:8px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);}
+.kiln-name{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px;}
+.kiln-tag{display:inline-block;font-size:10px;padding:1px 5px;border-radius:8px;margin:1px 1px 3px 0;}
+.t-purple{background:#EEEDFE;color:#3C3489;}
+.t-teal{background:#E1F5EE;color:#085041;}
+.t-amber{background:#FAEEDA;color:#633806;}
+.t-coral{background:#FAECE7;color:#712B13;}
+.t-blue{background:#E6F1FB;color:#0C447C;}
+.t-gray{background:#F1EFE8;color:#444441;}
+.kiln-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.5;}
+.paper-list{display:flex;flex-direction:column;gap:6px;}
+.paper-row{display:flex;gap:8px;align-items:flex-start;padding:6px 8px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);}
+.paper-cite{font-size:11px;font-weight:500;color:#185FA5;white-space:nowrap;min-width:100px;}
+.paper-pt{font-size:12px;color:var(--color-text-primary);line-height:1.5;}
+.ask-btn{margin-top:10px;font-size:13px;padding:6px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;color:var(--color-text-secondary);cursor:pointer;width:100%;}
+.ask-btn:hover{background:var(--color-background-secondary);}
+.progress-row{display:flex;gap:6px;flex-wrap:wrap;padding:12px 16px;align-items:center;}
+.prog-pill{font-size:12px;padding:3px 10px;border-radius:20px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);cursor:pointer;}
+.prog-pill.done{background:#E1F5EE;color:#085041;border-color:#5DCAA5;}
+.prog-label{font-size:12px;color:var(--color-text-tertiary);}
+</style>
+
+<div class="nb">
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+  <div>
+    <p style="font-size:18px;font-weight:500;color:var(--color-text-primary);">中國陶瓷的藝術與科學</p>
+    <p style="font-size:13px;color:var(--color-text-tertiary);">7 個單元 · 點擊展開各單元筆記</p>
+  </div>
+  <div style="text-align:right;">
+    <p style="font-size:11px;color:var(--color-text-tertiary);">學習進度</p>
+    <p style="font-size:20px;font-weight:500;color:var(--color-text-primary);" id="prog-num">0 / 7</p>
+  </div>
+</div>
+
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;align-items:center;">
+  <span class="prog-label">標記完成：</span>
+  <span class="prog-pill" id="p0" onclick="toggleDone(0)">基礎材料</span>
+  <span class="prog-pill" id="p1" onclick="toggleDone(1)">光學科學</span>
+  <span class="prog-pill" id="p2" onclick="toggleDone(2)">窯爐結構</span>
+  <span class="prog-pill" id="p3" onclick="toggleDone(3)">歷代名窯</span>
+  <span class="prog-pill" id="p4" onclick="toggleDone(4)">景德鎮</span>
+  <span class="prog-pill" id="p5" onclick="toggleDone(5)">考古學史</span>
+  <span class="prog-pill" id="p6" onclick="toggleDone(6)">論文速查</span>
+</div>
+
+<div class="unit" id="u0">
+  <div class="unit-hd" onclick="toggle(0)">
+    <div class="unit-icon" style="background:#E6F1FB;color:#0C447C;">材</div>
+    <span class="unit-title">單元一：陶瓷基礎與材料科學</span>
+    <span class="unit-meta">4 個考點</span>
+    <svg class="chevron" id="chev0" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </div>
+  <div class="unit-body" id="b0">
+    <div class="section">
+      <div class="sec-label">定義區分</div>
+      <div class="entry"><div class="entry-q">陶 vs 炻 vs 瓷 的核心差異</div><div class="entry-a">陶器＝低溫燒，僅胎體｜炻器（硬陶）＝高溫燒，僅胎體｜瓷器＝高溫燒，胎體＋釉料</div></div>
+      <div class="entry"><div class="entry-q">高嶺土（Kaolinite）化學式</div><div class="entry-a">4[(OH)₄Al₂Si₂O₅]　⬤ 劉良佑(1987)：黏土主要物理特性＝可塑性（Plasticity）</div></div>
+    </div>
+    <div class="section">
+      <div class="sec-label">南北泥成分對比 <span class="must">必考數字</span></div>
+      <div class="compare-grid">
+        <div class="col-card col-n">
+          <div class="col-label">北泥（高鋁低矽）</div>
+          <div class="col-row"><span>原料</span><span>黃土</span></div>
+          <div class="col-row"><span>Al₂O₃（邢窯）</span><span>32.89–34.5%</span></div>
+          <div class="col-row"><span>Al₂O₃（定窯）</span><span>27.34–28.22%</span></div>
+          <div class="col-row"><span>燒成色調</span><span>冷色調</span></div>
+        </div>
+        <div class="col-card col-s">
+          <div class="col-label">南泥（低鋁高矽）</div>
+          <div class="col-row"><span>原料</span><span>腐植土</span></div>
+          <div class="col-row"><span>Al₂O₃（SSG）</span><span>18.3–23.7%</span></div>
+          <div class="col-row"><span>SiO₂</span><span>67.7–74.2%</span></div>
+          <div class="col-row"><span>燒成色調</span><span>暖色調</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <button class="ask-btn" onclick="sendPrompt('幫我用問答方式考一下單元一的南北泥成分數字 ↗')">考考我：南北泥數字 ↗</button>
+    </div>
+  </div>
+</div>
+
+<div class="unit" id="u1">
+  <div class="unit-hd" onclick="toggle(1)">
+    <div class="unit-icon" style="background:#E1F5EE;color:#085041;">光</div>
+    <span class="unit-title">單元二：光學科學與呈色機制</span>
+    <span class="unit-meta">4 個考點</span>
+    <svg class="chevron" id="chev1" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </div>
+  <div class="unit-body" id="b1">
+    <div class="section">
+      <div class="sec-label">微觀結構三相</div>
+      <div class="entry"><div class="entry-q">OCT分析的三相各代表什麼窯口？</div><div class="entry-a">玻璃相→定窯白瓷（釉≤0.2mm）｜結晶相→建窯天目碗｜液相分離相→鈞窯粗釉</div></div>
+    </div>
+    <div class="section">
+      <div class="sec-label">鈞窯天空藍 <span class="must">必考簡答</span></div>
+      <div class="entry"><div class="entry-a" style="line-height:1.8;">
+        ① 鈞窯粗釉具有「液相分離相」，打破光學均一性<br>
+        ② 釉層內有奈米尺度空相粒子（半徑 ≪ 可見光波長）<br>
+        ③ 波長短的藍光被強烈散射＝<strong>瑞利散射效應（Rayleigh scattering）</strong>
+      </div></div>
+    </div>
+    <div class="section">
+      <div class="sec-label">其他光學考點</div>
+      <div class="entry"><div class="entry-q">Lycurgus Cup 的教學目的</div><div class="entry-a">說明金膠體（Gold colloid）等微觀粒子使物質在透射光/反射光下呈現不同顏色</div></div>
+      <div class="entry"><div class="entry-q">鉛釉陶「彩虹光效應」原因</div><div class="entry-a">長年埋藏→微酸性地下水溶出 Pb²⁺→釉層剝離形成薄膜干涉</div></div>
+    </div>
+    <div class="section">
+      <button class="ask-btn" onclick="sendPrompt('請用一段話解釋鈞窯的瑞利散射機制，讓我確認我理解了 ↗')">確認理解：鈞窯呈色 ↗</button>
+    </div>
+  </div>
+</div>
+
+<div class="unit" id="u2">
+  <div class="unit-hd" onclick="toggle(2)">
+    <div class="unit-icon" style="background:#FAEEDA;color:#633806;">窯</div>
+    <span class="unit-title">單元三：窯爐結構命名（李清臨2020）</span>
+    <span class="unit-meta">5 大設施</span>
+    <svg class="chevron" id="chev2" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </div>
+  <div class="unit-body" id="b2">
+    <div class="section">
+      <div class="sec-label">五大設施</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:8px;">
+        <div style="padding:8px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);text-align:center;font-size:12px;color:var(--color-text-primary);">保溫設施</div>
+        <div style="padding:8px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);text-align:center;font-size:12px;color:var(--color-text-primary);">火力設施</div>
+        <div style="padding:8px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);text-align:center;font-size:12px;color:var(--color-text-primary);">燒成設施</div>
+        <div style="padding:8px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);text-align:center;font-size:12px;color:var(--color-text-primary);">排煙設施</div>
+        <div style="padding:8px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);text-align:center;font-size:12px;color:var(--color-text-primary);">操作設施</div>
+      </div>
+      <div class="entry"><div class="entry-q">最早半封閉式窯址</div><div class="entry-a">半坡文化遺址</div></div>
+    </div>
+    <div class="section">
+      <div class="sec-label">易混淆：排煙設施三者對比 <span class="must">常考</span></div>
+      <div class="entry"><div class="entry-q">煙道</div><div class="entry-a">地表之下的走煙通道（開挖於土層）</div></div>
+      <div class="entry"><div class="entry-q">煙囪</div><div class="entry-a">地表或窯頂之上的走煙通道</div></div>
+      <div class="entry"><div class="entry-q">吸火孔 vs 排煙孔</div><div class="entry-a">吸火孔＝半倒焰/龍窯後壁下方，有吸引火焰作用｜排煙孔＝升焰式窯頂的孔</div></div>
+    </div>
+    <div class="section">
+      <div class="sec-label">操作坑特殊用法</div>
+      <div class="entry"><div class="entry-a">隋唐時期：多座窯爐（最多24座）共用一個操作坑，以相對、並排、品字形排列</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="unit" id="u3">
+  <div class="unit-hd" onclick="toggle(3)">
+    <div class="unit-icon" style="background:#EEEDFE;color:#3C3489;">窯</div>
+    <span class="unit-title">單元四：歷代名窯特色</span>
+    <span class="unit-meta">6 座窯口</span>
+    <svg class="chevron" id="chev3" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </div>
+  <div class="unit-body" id="b3">
+    <div class="section">
+      <div class="sec-label">窯口速覽卡</div>
+      <div class="kiln-grid">
+        <div class="kiln-card">
+          <div class="kiln-name">越窯</div>
+          <span class="kiln-tag t-teal">晚唐五代鼎盛</span><span class="kiln-tag t-gray">秘色瓷</span>
+          <div class="kiln-desc">王光堯2008：衰落因官府需求減少</div>
+        </div>
+        <div class="kiln-card">
+          <div class="kiln-name">邢窯</div>
+          <span class="kiln-tag t-blue">唐代</span><span class="kiln-tag t-gray">璧足</span>
+          <div class="kiln-desc">北泥氧化燒→冷白；受中亞胡風影響</div>
+        </div>
+        <div class="kiln-card">
+          <div class="kiln-name">定窯</div>
+          <span class="kiln-tag t-purple">宋金</span><span class="kiln-tag t-amber">貢窯</span>
+          <div class="kiln-desc">象牙白；覆燒→芒口→銅口；劃花→印花</div>
+        </div>
+        <div class="kiln-card" style="border-color:#7F77DD;">
+          <div class="kiln-name">磁州窯 <span class="must">多考</span></div>
+          <span class="kiln-tag t-amber">金代鼎盛</span><span class="kiln-tag t-gray">民窯</span>
+          <div class="kiln-desc">化妝土（slip）三層結構；詩文商號；梅瓶、瓷枕</div>
+        </div>
+        <div class="kiln-card">
+          <div class="kiln-name">耀州窯</div>
+          <span class="kiln-tag t-teal">橄欖綠</span><span class="kiln-tag t-gray">北宋外銷</span>
+          <div class="kiln-desc">弱還原燒；深切刻花/劃花；陳寧寧2021</div>
+        </div>
+        <div class="kiln-card">
+          <div class="kiln-name">鈞窯</div>
+          <span class="kiln-tag t-blue">液相分離</span><span class="kiln-tag t-gray">窯變</span>
+          <div class="kiln-desc">瑞利散射→天空藍；粗釉三相</div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sec-label">磁州窯五大品牌特色 <span class="must">必考簡答</span></div>
+      <div class="entry"><div class="entry-a" style="line-height:2;">
+        ① 粗瓷細作：胎釉間加白色化妝土（slip），三層剖面結構<br>
+        ② 黑白強烈對比：白地黑花、白釉剔花等 57 種技法<br>
+        ③ 詩文裝飾：《西江月》等詩詞直接書寫於器物<br>
+        ④ 商號裝飾：「八仙館」、「仁和館」等堂號<br>
+        ⑤ 特色器型：梅瓶（酒器）、瓷枕（寢具）
+      </div></div>
+    </div>
+    <div class="section">
+      <button class="ask-btn" onclick="sendPrompt('以「森達也2013」論文為出發點，考我定窯與汝窯/南宋官窯的器種比較 ↗')">考我：森達也論文考點 ↗</button>
+    </div>
+  </div>
+</div>
+
+<div class="unit" id="u4">
+  <div class="unit-hd" onclick="toggle(4)">
+    <div class="unit-icon" style="background:#FAECE7;color:#712B13;">鎮</div>
+    <span class="unit-title">單元五：景德鎮三寶蓬礦（何俊2015）</span>
+    <span class="unit-meta">2 個考點</span>
+    <svg class="chevron" id="chev4" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </div>
+  <div class="unit-body" id="b4">
+    <div class="section">
+      <div class="entry"><div class="entry-q">礦業轉型脈絡</div><div class="entry-a">南宋至元後期露天礦枯竭→轉向竖坑法/横坑法地下開採→促成「二元配方」（瓷石＋高嶺土）發明</div></div>
+      <div class="entry"><div class="entry-q">代表性加工設施與作坊</div><div class="entry-a">「水碓」（利用溪水動能）｜鐵欄關虎碓棚（加工釉果）｜十八拐碓棚（加工泥料）</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="unit" id="u5">
+  <div class="unit-hd" onclick="toggle(5)">
+    <div class="unit-icon" style="background:#EAF3DE;color:#27500A;">史</div>
+    <span class="unit-title">單元六：陶瓷考古學史（王睿2020）</span>
+    <span class="unit-meta">4 階段</span>
+    <svg class="chevron" id="chev5" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </div>
+  <div class="unit-body" id="b5">
+    <div class="section">
+      <div class="entry"><div class="entry-q">第一階段（20–40年代）</div><div class="entry-a">陳萬里實地調查，創始階段</div></div>
+      <div class="entry"><div class="entry-q">第二階段（50–70年代）</div><div class="entry-a">全國窯址調查，全面起步</div></div>
+      <div class="entry"><div class="entry-q">第三階段（80–90年代）</div><div class="entry-a">宋遼金名窯重點發掘，深入發展</div></div>
+      <div class="entry" style="border:0.5px solid #7F77DD;"><div class="entry-q">第四階段（21世紀以來）<span class="must">常考填空</span></div><div class="entry-a">轉向元明窯址（景德鎮御窯廠）＋水下考古（南海I號）｜確認：官字款、二元配方、青花始燒年代</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="unit" id="u6">
+  <div class="unit-hd" onclick="toggle(6)">
+    <div class="unit-icon" style="background:#F1EFE8;color:#444441;">文</div>
+    <span class="unit-title">論文考點速查</span>
+    <span class="unit-meta">10 篇論文</span>
+    <svg class="chevron" id="chev6" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </div>
+  <div class="unit-body" id="b6">
+    <div class="section">
+      <div class="paper-list">
+        <div class="paper-row"><span class="paper-cite">劉良佑 1987</span><span class="paper-pt">黏土最主要物理特性＝可塑性（Plasticity）</span></div>
+        <div class="paper-row"><span class="paper-cite">王光堯 2008</span><span class="paper-pt">越窯鼎盛＝晚唐五代；衰落因官府需求減少</span></div>
+        <div class="paper-row"><span class="paper-cite">李清臨 2020</span><span class="paper-pt">窯爐五大設施分類命名系統</span></div>
+        <div class="paper-row"><span class="paper-cite">秦大樹 2021</span><span class="paper-pt">觀台窯址四期七段；磁州窯始燒不早於後周/北宋初</span></div>
+        <div class="paper-row"><span class="paper-cite">森達也 2013</span><span class="paper-pt">定窯缺漢代青銅禮器/唐宋金銀器母型；定窯整宋為貢窯</span></div>
+        <div class="paper-row"><span class="paper-cite">沈岳明 2009</span><span class="paper-pt">推算龍窯裝燒量需考慮：窯的結構、溫度分佈、器種</span></div>
+        <div class="paper-row"><span class="paper-cite">丁雨 2016</span><span class="paper-pt">裹足支燒巔峰＝五代北宋間；未提及長沙窯</span></div>
+        <div class="paper-row"><span class="paper-cite">陳寧寧 2021</span><span class="paper-pt">耀州窯北宋晚期大量出口外銷</span></div>
+        <div class="paper-row"><span class="paper-cite">何俊 2015</span><span class="paper-pt">三寶蓬礦業轉型→二元配方；水碓加工</span></div>
+        <div class="paper-row"><span class="paper-cite">劉翔宇 2022</span><span class="paper-pt">宋金水紋裝飾三種技法；其一唯吉州窯使用</span></div>
+      </div>
+    </div>
+    <div class="section">
+      <button class="ask-btn" onclick="sendPrompt('從這10篇論文中，隨機抽3篇考我作者、年份和核心論點的配對 ↗')">隨機考論文配對 ↗</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const done = [false,false,false,false,false,false,false];
+function toggle(i){
+  const b=document.getElementById('b'+i), c=document.getElementById('chev'+i);
+  const open=b.classList.toggle('open');
+  c.classList.toggle('open',open);
+}
+function toggleDone(i){
+  done[i]=!done[i];
+  const p=document.getElementById('p'+i);
+  p.classList.toggle('done',done[i]);
+  document.getElementById('prog-num').textContent=done.filter(Boolean).length+' / 7';
+}
+</script>
