@@ -1,0 +1,531 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--serif:'Noto Serif TC','Source Han Serif TC',serif}
+.wr{font-family:var(--serif);padding:1.4rem 1rem 2.5rem;max-width:730px;margin:0 auto}
+.bk-hd{border-bottom:.5px solid var(--color-border-tertiary);padding-bottom:1.1rem;margin-bottom:1.4rem}
+.bk-t{font-size:21px;font-weight:700;color:var(--color-text-primary);line-height:1.4;font-family:var(--serif)}
+.bk-sub{font-size:13px;color:var(--color-text-secondary);margin-top:3px;font-family:var(--serif)}
+.bk-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.tag{font-size:11px;padding:3px 9px;border-radius:999px;border:.5px solid var(--color-border-secondary);color:var(--color-text-secondary);background:var(--color-background-secondary);font-family:var(--serif)}
+/* nav */
+.nav{display:flex;gap:0;flex-wrap:wrap;border-bottom:.5px solid var(--color-border-tertiary);margin-bottom:1.4rem}
+.nb{font-family:var(--serif);font-size:13px;padding:7px 12px;border:none;background:none;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-.5px;transition:all .18s}
+.nb:hover{color:var(--color-text-primary)}
+.nb.on{color:var(--color-text-primary);border-bottom:2px solid var(--color-text-primary);font-weight:500}
+.pn{display:none}.pn.on{display:block}
+/* accordion */
+.ac{border:.5px solid var(--color-border-tertiary);border-radius:11px;margin-bottom:.9rem;overflow:hidden}
+.ac-hd{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;cursor:pointer;background:var(--color-background-secondary);user-select:none}
+.ac-hd:hover{background:var(--color-background-tertiary)}
+.ac-lbl{display:flex;align-items:center;gap:9px}
+.ac-ico{font-size:16px;width:24px;text-align:center;flex-shrink:0}
+.ac-ttl{font-size:14px;font-weight:500;color:var(--color-text-primary);font-family:var(--serif)}
+.ac-sub{font-size:11px;color:var(--color-text-secondary);margin-top:1px;font-family:var(--serif)}
+.chv{font-size:10px;color:var(--color-text-tertiary);transition:transform .22s;flex-shrink:0}
+.chv.o{transform:rotate(90deg)}
+.ac-bd{display:none;padding:.9rem 1rem;border-top:.5px solid var(--color-border-tertiary)}
+.ac-bd.o{display:block}
+/* content */
+.df{margin-bottom:.85rem}
+.df-t{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px;font-family:var(--serif)}
+.df-d{font-size:12.5px;color:var(--color-text-secondary);line-height:1.75;font-family:var(--serif)}
+.qt{border-left:2px solid var(--color-border-secondary);padding:5px 11px;margin:.75rem 0;font-size:12.5px;color:var(--color-text-secondary);line-height:1.7;font-style:italic;font-family:var(--serif)}
+.rl{list-style:none;padding:0}
+.rl li{display:flex;gap:8px;padding:6px 0;border-bottom:.5px solid var(--color-border-tertiary);font-size:12.5px;color:var(--color-text-primary);line-height:1.6;font-family:var(--serif)}
+.rl li:last-child{border-bottom:none}
+.rn{font-size:10px;font-weight:500;min-width:20px;height:20px;border-radius:50%;border:.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary);flex-shrink:0;margin-top:1px}
+/* timeline */
+.tl{display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;gap:12px;padding:10px 0;border-bottom:.5px solid var(--color-border-tertiary)}
+.tl-item:last-child{border-bottom:none}
+.tl-left{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;width:54px}
+.tl-year{font-size:11px;font-weight:500;color:var(--color-text-secondary);font-family:var(--serif);text-align:center}
+.tl-dot{width:8px;height:8px;border-radius:50%;background:var(--color-text-tertiary);flex-shrink:0}
+.tl-line{width:1px;flex:1;background:var(--color-border-tertiary);min-height:12px}
+.tl-content{flex:1;padding-top:1px}
+.tl-ev{font-size:13px;font-weight:500;color:var(--color-text-primary);font-family:var(--serif)}
+.tl-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.65;margin-top:3px;font-family:var(--serif)}
+/* insight */
+.ins{background:var(--color-background-secondary);border-radius:10px;padding:.85rem 1rem;margin-bottom:.75rem}
+.ins-lbl{font-size:10px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;font-family:var(--serif)}
+.ins-t{font-size:13px;color:var(--color-text-primary);line-height:1.75;font-family:var(--serif)}
+/* concept grid */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:.5rem 0}
+.cg-card{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:.7rem .85rem;background:var(--color-background-secondary)}
+.cg-t{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px;font-family:var(--serif)}
+.cg-d{font-size:11.5px;color:var(--color-text-secondary);line-height:1.65;font-family:var(--serif)}
+/* bar */
+.bar-wrap{margin:.6rem 0}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.bar-lbl{font-size:12px;color:var(--color-text-secondary);width:80px;flex-shrink:0;font-family:var(--serif);text-align:right}
+.bar-bg{flex:1;height:6px;background:var(--color-background-tertiary);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;background:var(--color-text-secondary)}
+.bar-val{font-size:11px;color:var(--color-text-tertiary);width:32px;font-family:var(--serif)}
+/* chapter nav */
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:.5rem 0}
+.ch-card{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:.7rem .85rem;cursor:pointer;background:var(--color-background-primary);transition:background .15s}
+.ch-card:hover{background:var(--color-background-secondary)}
+.ch-num{font-size:10px;color:var(--color-text-tertiary);font-family:var(--serif);margin-bottom:3px}
+.ch-ttl{font-size:12.5px;font-weight:500;color:var(--color-text-primary);font-family:var(--serif);line-height:1.4}
+.ch-auth{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;font-family:var(--serif)}
+/* checker */
+.ck-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:.5px solid var(--color-border-tertiary)}
+.ck-item:last-child{border-bottom:none}
+.ck-item input{margin-top:2px;flex-shrink:0;cursor:pointer}
+.ck-lbl{font-size:12.5px;color:var(--color-text-primary);line-height:1.5;font-family:var(--serif)}
+.prog-wrap{height:4px;background:var(--color-background-tertiary);border-radius:2px;margin:12px 0 4px;overflow:hidden}
+.prog{height:4px;background:var(--color-text-secondary);border-radius:2px;transition:width .3s}
+.prog-lbl{font-size:12px;color:var(--color-text-tertiary);font-family:var(--serif)}
+</style>
+
+<div class="wr">
+  <div class="bk-hd">
+    <div class="bk-t">中華民國斷交史</div>
+    <div class="bk-sub">法律白話文運動 著｜故事編輯部 企畫｜2019，聯合文學</div>
+    <div class="bk-tags">
+      <span class="tag">外交史</span>
+      <span class="tag">國際法</span>
+      <span class="tag">臺灣認同</span>
+      <span class="tag">白話讀本</span>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="nb on" onclick="showP('overview')">全書概覽</button>
+    <button class="nb" onclick="showP('chapters')">十章筆記</button>
+    <button class="nb" onclick="showP('timeline')">歷史時間軸</button>
+    <button class="nb" onclick="showP('concepts')">核心概念</button>
+    <button class="nb" onclick="showP('insights')">關鍵洞見</button>
+    <button class="nb" onclick="showP('check')">自我檢核</button>
+  </div>
+
+  <!-- 全書概覽 -->
+  <div class="pn on" id="pn-overview">
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">📌</span>
+          <div><div class="ac-ttl">本書在問什麼？</div><div class="ac-sub">核心問題意識</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="qt">「每個國家都能寫出外交史，但可不是每個國家都有斷交史可寫。」</div>
+        <div class="df">
+          <div class="df-t">書名的雙重意涵</div>
+          <div class="df-d">表面是中華民國一路「被分手」的外交史，但更深層的問題是：<strong>「我們是誰？」</strong>——中華民國、中國、臺灣三者的複雜關係，才是每一次斷交背後的根本糾結。</div>
+        </div>
+        <div class="df">
+          <div class="df-t">為什麼從法律角度切入？</div>
+          <div class="df-d">外交問題往往被政治情緒主導。本書以國際法的框架——承認、代表權、條約、非國家實體等概念——提供更精確的語言，幫助讀者理解台灣處境的本質，而非僅停留在感性層次。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">🗺</span>
+          <div><div class="ac-ttl">全書架構</div><div class="ac-sub">十章，三段發展邏輯</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <ul class="rl">
+          <li><span class="rn">一</span><span><strong>歷史起點（Ch.1–2）：</strong>1949年的國共分裂與中華民國落腳臺灣，奠定此後所有外交困境的結構性根源。</span></li>
+          <li><span class="rn">二</span><span><strong>關鍵節點（Ch.3–6）：</strong>聯合國席次爭奪、奧會模式形成、美中台三角關係演變、光華寮事件——每一件都是「斷交史」的具體縮影。</span></li>
+          <li><span class="rn">三</span><span><strong>現況與展望（Ch.7–10）：</strong>非國家實體的比較、臺灣當前的國際參與形式、邦交國的實際意義、未來路徑的討論。</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">👥</span>
+          <div><div class="ac-ttl">作者群</div><div class="ac-sub">法律白話文運動集體書寫</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <ul class="rl">
+          <li><span class="rn">林</span><span>林韋聿：Ch.1（民國38年）、Ch.3（聯合國）、Ch.5（美中台關係）</span></li>
+          <li><span class="rn">楊</span><span>楊貴智：Ch.2（落腳臺灣）、Ch.4（奧會模式）</span></li>
+          <li><span class="rn">王</span><span>王鼎棫：Ch.6（光華寮事件）</span></li>
+          <li><span class="rn">顏</span><span>顏聚享：Ch.7（非國家實體）、Ch.10（展望，合著）</span></li>
+          <li><span class="rn">李</span><span>李濬勳：Ch.8（國際參與）、Ch.10（展望，合著）</span></li>
+          <li><span class="rn">蔡</span><span>蔡孟翰：Ch.9（邦交國的意義）</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 十章筆記 -->
+  <div class="pn" id="pn-chapters">
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">①</span>
+          <div><div class="ac-ttl">動盪不安的民國38年</div><div class="ac-sub">林韋聿｜國共內戰的終局</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="df-d" style="font-size:12.5px;color:var(--color-text-secondary);line-height:1.75;font-family:var(--serif)">梳理1949年國共勢力消長的過程：中華民國政府如何在大陸潰敗、被迫撤退至臺灣。這不只是一場軍事失敗，更奠定此後中華民國在國際社會中「身分認同模糊」的結構性困境——究竟是中國的合法政府，還是臺灣的在地政權？</div>
+        <div class="qt">本章建立全書的歷史起點：中華民國「落地」臺灣，卻始終沒有真正「紮根」於此。</div>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">②</span>
+          <div><div class="ac-ttl">中華民國落腳臺灣</div><div class="ac-sub">楊貴智｜法律上的主權疑問</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="df">
+          <div class="df-t">歷史的轉捩點</div>
+          <div class="df-d">日本投降後，臺澎地區歸屬問題從未在法律上完整釐清。《開羅宣言》是政治聲明而非條約，法律拘束力有爭議；《舊金山和約》日本放棄臺灣主權，但未指明歸屬對象。</div>
+        </div>
+        <div class="df">
+          <div class="df-t">兩個中國的競爭</div>
+          <div class="df-d">中華民國與中華人民共和國同時主張代表「中國」，外交史上的每一次斷交，實質上都是一場「中國代表權」的爭奪戰落幕的縮影。</div>
+        </div>
+        <div class="qt">重點：「臺灣」這個地理名詞，從未在法律上享有完整的主權意義——但中華民國在此的統治，實質上早已具備國家的各項功能。</div>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">③</span>
+          <div><div class="ac-ttl">聯合國「中國代表權」之爭</div><div class="ac-sub">林韋聿｜2758號決議</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="df">
+          <div class="df-t">關鍵：1971年第2758號決議</div>
+          <div class="df-d">聯合國大會通過決議，確認中華人民共和國為「中國在聯合國的唯一合法代表」，中華民國政府在此前自行退出。注意：決議確定了「代表權」，但並未明確表示臺灣是中華人民共和國領土的一部分。</div>
+        </div>
+        <div class="df">
+          <div class="df-t">「無國籍的人」隱喻</div>
+          <div class="df-d">退出聯合國後，臺灣的國際地位陷入法律灰色地帶——不被承認為國家，卻又實質運作著完整的政府功能。</div>
+        </div>
+        <div class="qt">1970年代初，邦交國從巔峰70國在短短三年多驟降至不到35國。</div>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">④</span>
+          <div><div class="ac-ttl">奧會模式與「中華臺北」</div><div class="ac-sub">楊貴智｜名分上的讓步</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="df">
+          <div class="df-t">歷史諷刺</div>
+          <div class="df-d">1959年國際奧委會主動建議臺北政府將奧委會改名為「福爾摩沙／臺灣奧委會」，當時被拒絕；如今臺灣想以「臺灣」名義參賽，反而面臨重重阻攔。</div>
+        </div>
+        <div class="df">
+          <div class="df-t">奧會模式的本質</div>
+          <div class="df-d">以「中華臺北」（Chinese Taipei）名義、特定旗幟與會歌參與國際賽事。這是在「名分上讓步、實質上參與」的折衷方案，此後延伸出 WTO 的「臺澎金馬獨立關稅領域」、各種國際漁業組織的「中華臺北捕魚實體」等模式。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">⑤</span>
+          <div><div class="ac-ttl">牽一髮而動全身的美中台關係</div><div class="ac-sub">林韋聿｜三公報一法</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="df">
+          <div class="df-t">結構：三公報一法＋六項保證</div>
+          <div class="df-d">1972年後，美中關係改善形成的三份聯合公報（上海、建交、八一七）加上《臺灣關係法》（1979），是美中台三角關係的法律基石。六項保證（1982）則是美國對臺灣的非正式承諾。</div>
+        </div>
+        <div class="df">
+          <div class="df-t">「模糊策略」的精髓</div>
+          <div class="df-d">美國對臺灣主權刻意保持模糊，既不明確承認「一個中國原則」，也不支持臺灣獨立。這種戰略模糊讓台海維持不統不獨的現狀，卻也讓臺灣長期處於不確定狀態。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">⑥</span>
+          <div><div class="ac-ttl">日本光華寮事件</div><div class="ac-sub">王鼎棫｜承認的法律爭議</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="df">
+          <div class="df-t">事件核心</div>
+          <div class="df-d">光華寮是中國留學生宿舍，產權究竟歸屬中華民國還是中華人民共和國？日本法院的判決反映了日本在中日建交後，如何在法律上處理與中華民國的既有關係。</div>
+        </div>
+        <div class="df">
+          <div class="df-t">延伸：「在臺協會」們的誕生</div>
+          <div class="df-d">日美斷交後以「非政府機構」形式延續實質外交關係的模式：日本設「交流協會」（現更名「日本台灣交流協會」），美國設「美國在台協會（AIT）」。建交≠承認，斷交≠不往來。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">⑦</span>
+          <div><div class="ac-ttl">這世界上的其他「非國家實體」</div><div class="ac-sub">顏聚享｜國際法主體的擴展</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="df-d" style="font-size:12.5px;color:var(--color-text-secondary);line-height:1.75;font-family:var(--serif)">國際法的「主體」不只有國家。本章介紹其他非國家實體：國際組織（如聯合國）、跨國公司、民族解放組織、原住民族、城市、個人等，都在不同程度上被國際法討論。臺灣不是唯一「存在但不被完整承認」的實體——比較視野有助理解臺灣處境的特殊性與普遍性。</div>
+        <div class="qt">「所謂的『一個中國原則』，涉及到國際法中的『政府承認』議題。」</div>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">⑧</span>
+          <div><div class="ac-ttl">「臺灣」的國際參與</div><div class="ac-sub">李濬勳｜現有的參與形式</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="df">
+          <div class="df-t">臺灣目前如何參與國際？</div>
+          <div class="df-d">以各種「變形名稱」加入不同國際組織：WTO 以「臺澎金馬獨立關稅領域」、奧運以「中華臺北」、漁業組織以「中華臺北捕魚實體」、APEC 以「中華臺北」……每種名稱背後都是一場外交談判的結果。</div>
+        </div>
+        <div class="df">
+          <div class="df-t">「建交」≠「承認」</div>
+          <div class="df-d">A國可以承認B政府或國家的存在，但不和對方建立正式外交關係（建交）；反之亦然。這個區別在理解臺灣的國際處境時非常關鍵。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">⑨</span>
+          <div><div class="ac-ttl">邦交國對於臺灣真的不可或缺嗎？</div><div class="ac-sub">蔡孟翰｜重新評估邦交的意義</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="df">
+          <div class="df-t">邦交國的實際功能</div>
+          <div class="df-d">正式邦交國在法律上有助於主張國家地位、在聯合國體系中發言、使用護照免簽等實際便利。但許多邦交國是規模極小的島國，實質影響力有限。</div>
+        </div>
+        <div class="df">
+          <div class="df-t">更重要的問題</div>
+          <div class="df-d">臺灣與無邦交的美國、日本、歐盟的實質關係，遠比與多數邦交國更深厚。本章提出：與其數算邦交國數字，不如思考實質關係的品質與深度。</div>
+        </div>
+        <div class="qt">「未來何去何從」——邦交國的流失是症狀，認同定位才是根本問題。</div>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">⑩</span>
+          <div><div class="ac-ttl">展望臺灣的未來之路</div><div class="ac-sub">李濬勳、顏聚享｜身分認同的抉擇</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="df">
+          <div class="df-t">核心命題</div>
+          <div class="df-d">「我們究竟是誰？」不只是哲學問題，更是外交政策的前提。若臺灣社會無法凝聚對自身定位的共識，外交策略就缺乏穩定的錨點。</div>
+        </div>
+        <div class="df">
+          <div class="df-t">書的立場</div>
+          <div class="df-d">本書鼓勵從歷史、文化、法律多角度重新思考臺灣的認同，進行理性而善意的公共討論，共同決定這塊土地的前途方向。</div>
+        </div>
+        <div class="qt">「在1945年後，實證說明不存在『滿足國家四要素、即成為國家』的想像，國家地位的建立有賴住民公開而正式的主張，以及國際社會的認可。」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 時間軸 -->
+  <div class="pn" id="pn-timeline">
+    <div class="tl">
+      <div class="tl-item">
+        <div class="tl-left"><span class="tl-year">1912</span><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-ev">中華民國建立</div><div class="tl-desc">孫文在南京宣告建國，起點邦交數字尚為空白。</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><span class="tl-year">1943</span><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-ev">《開羅宣言》</div><div class="tl-desc">美英中三國聲明日本放棄臺灣後歸還中華民國，但此為政治聲明，非正式條約，法律效力存爭議。</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><span class="tl-year">1949</span><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-ev">中華民國政府遷臺</div><div class="tl-desc">國共內戰結束，蔣介石政府退守臺灣，「兩個中國」競爭正式開始。</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><span class="tl-year">1952</span><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-ev">《舊金山和約》生效</div><div class="tl-desc">日本正式放棄臺灣主權，但未指定歸屬對象，埋下「地位未定論」。</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><span class="tl-year">1971</span><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-ev">退出聯合國（2758號決議）</div><div class="tl-desc">聯合國承認中華人民共和國為「中國唯一合法代表」，中華民國在表決前宣布退出。邦交國骨牌效應開始。</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><span class="tl-year">1972</span><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-ev">尼克森訪中、《上海公報》</div><div class="tl-desc">美中關係正常化啟動，多國隨之與中華民國斷交。同年日本亦與中華民國斷交。</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><span class="tl-year">1979</span><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-ev">美中建交、《臺灣關係法》</div><div class="tl-desc">美國與中華民國斷交，同時制定《臺灣關係法》維持實質關係，AIT成立。</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><span class="tl-year">1981</span><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-ev">「中華臺北」奧會模式確立</div><div class="tl-desc">以特定旗幟、會歌及「Chinese Taipei」名義參加國際賽事，成為往後各國際組織的範本。</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><span class="tl-year">1992</span><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-ev">韓國與中華民國斷交</div><div class="tl-desc">較具規模的邦交國之一，電視上降旗畫面令許多臺灣人印象深刻。</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><span class="tl-year">2002</span><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-ev">以「臺澎金馬獨立關稅領域」加入WTO</div><div class="tl-desc">不以「中華民國」或「臺灣」為名，以經濟實體形式正式參與全球貿易體系。</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><span class="tl-year">2018</span><div class="tl-dot"></div></div>
+        <div class="tl-content"><div class="tl-ev">邦交國降至17國</div><div class="tl-desc">本書出版時點。斷交史仍持續書寫中，認同問題尚待臺灣社會共同回答。</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 核心概念 -->
+  <div class="pn" id="pn-concepts">
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">⚖️</span>
+          <div><div class="ac-ttl">外交承認 vs. 建交</div><div class="ac-sub">最容易混淆的核心區別</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="cg">
+          <div class="cg-card">
+            <div class="cg-t">外交承認（Recognition）</div>
+            <div class="cg-d">A國承認B國（或B政府）的存在及其合法性，是法律上的態度表示，不必然建立外交關係。</div>
+          </div>
+          <div class="cg-card">
+            <div class="cg-t">建交（Diplomatic Relations）</div>
+            <div class="cg-d">兩國正式互設大使館、交換大使，建立完整的外交關係。可以承認而不建交，也可以建交而主權立場模糊。</div>
+          </div>
+        </div>
+        <div class="df-d" style="font-size:12.5px;color:var(--color-text-secondary);line-height:1.75;font-family:var(--serif);margin-top:.6rem">臺灣案例：美國承認中華人民共和國是代表中國的合法政府，但同時透過《臺灣關係法》與「美國在台協會」維持對臺灣的實質關係，是「建交≠承認」最典型的活用。</div>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">🏛</span>
+          <div><div class="ac-ttl">政府承認 vs. 國家承認</div><div class="ac-sub">一個中國原則的法律核心</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="df">
+          <div class="df-t">「一個中國原則」到底在說什麼？</div>
+          <div class="df-d">這涉及國際法中的「政府承認」議題。各國承認中華人民共和國是代表「中國」的政府，但「中國」的領土範圍是否包含臺灣，各國的表述不盡相同，美國尤其刻意保持模糊（note, acknowledge ≠ recognize）。</div>
+        </div>
+        <div class="df">
+          <div class="df-t">2758號決議的精確解讀</div>
+          <div class="df-d">決議確定中華人民共和國取得中國在聯合國的代表權，但「代表範圍不包括臺灣在內」——因為決議中根本沒有明文說臺灣屬於中華人民共和國。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">🌐</span>
+          <div><div class="ac-ttl">非國家實體的國際法地位</div><div class="ac-sub">臺灣不是孤例</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="df-d" style="font-size:12.5px;color:var(--color-text-secondary);line-height:1.75;font-family:var(--serif)">傳統國際法認為「只有主權國家才是國際法主體」，但二戰後此觀點已大幅擴展。當今國際法討論的主體包括：</div>
+        <ul class="rl" style="margin-top:.5rem">
+          <li><span class="rn">①</span><span>國際組織（如聯合國、歐盟）</span></li>
+          <li><span class="rn">②</span><span>跨國公司（在投資仲裁中具有地位）</span></li>
+          <li><span class="rn">③</span><span>民族解放組織（巴解組織曾取得聯合國觀察員地位）</span></li>
+          <li><span class="rn">④</span><span>原住民族（近年國際人權法的擴展）</span></li>
+          <li><span class="rn">⑤</span><span>個人（人權法下的義務承擔主體）</span></li>
+        </ul>
+        <div class="df-d" style="font-size:12.5px;color:var(--color-text-secondary);line-height:1.75;font-family:var(--serif);margin-top:.6rem">臺灣以各種「變形名稱」參與國際組織，正是在這個擴展框架下尋求生存空間。</div>
+      </div>
+    </div>
+
+    <div class="ac">
+      <div class="ac-hd" onclick="tog(this)">
+        <div class="ac-lbl"><span class="ac-ico">🔑</span>
+          <div><div class="ac-ttl">國家的構成要素（蒙特維多公約）</div><div class="ac-sub">但光有要素還不夠</div></div>
+        </div><span class="chv">▶</span>
+      </div>
+      <div class="ac-bd">
+        <div class="cg">
+          <div class="cg-card"><div class="cg-t">① 固定的人民</div><div class="cg-d">臺灣：有</div></div>
+          <div class="cg-card"><div class="cg-t">② 固定的領土</div><div class="cg-d">臺灣：有</div></div>
+          <div class="cg-card"><div class="cg-t">③ 有效的政府</div><div class="cg-d">臺灣：有</div></div>
+          <div class="cg-card"><div class="cg-t">④ 與他國交往的能力</div><div class="cg-d">臺灣：實質上有</div></div>
+        </div>
+        <div class="qt" style="margin-top:.7rem">但書：1945年後，實證說明光「滿足四要素」不等於自動成為國家——國家地位的建立，還需要住民的公開主張，以及國際社會的認可。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 關鍵洞見 -->
+  <div class="pn" id="pn-insights">
+    <div class="ins">
+      <div class="ins-lbl">全書最核心的問題</div>
+      <div class="ins-t">「我們究竟是誰？」不只是認同哲學，而是外交戰略的前提條件。每一次斷交的背後，都是臺灣對自身定位尚未凝聚共識的代價。</div>
+    </div>
+    <div class="ins">
+      <div class="ins-lbl">建交≠承認，這個區別很重要</div>
+      <div class="ins-t">美國「斷交」中華民國，但從未表示「不承認」臺灣存在，更透過《臺灣關係法》維持實質關係。理解這個法律細節，能避免把「斷交」過度解讀為「放棄臺灣」。</div>
+    </div>
+    <div class="ins">
+      <div class="ins-lbl">2758號決議被長期誤解</div>
+      <div class="ins-t">聯合國決議只決定「誰代表中國」，並未明文宣示臺灣是中華人民共和國的一部分。中華人民共和國長期以此決議為由，主張在各國際組織排除臺灣，是一種擴大解釋。</div>
+    </div>
+    <div class="ins">
+      <div class="ins-lbl">奧會模式是臺灣自己拒絕過的</div>
+      <div class="ins-t">1959年奧委會主動建議以「福爾摩沙／臺灣」名稱參賽，當時的中華民國政府以「漢賊不兩立」的立場拒絕。今日局面，某種程度是歷史選擇的結果。</div>
+    </div>
+    <div class="ins">
+      <div class="ins-lbl">邦交數字不等於實質外交影響力</div>
+      <div class="ins-t">臺灣與美、日、歐盟的無邦交實質關係，遠比十幾個小島邦交國更具戰略價值。斷交潮固然令人憂慮，但邦交數字本身並非唯一的外交指標。</div>
+    </div>
+    <div class="ins">
+      <div class="ins-lbl">本書的局限性</div>
+      <div class="ins-t">本書以法律為切入點，但現存的法律本身也是歷史進程的產物。面對政治現實，法律框架有其解釋力，也有其侷限——這是讀者需自行補充的批判視角。</div>
+    </div>
+  </div>
+
+  <!-- 自我檢核 -->
+  <div class="pn" id="pn-check">
+    <div style="border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:1rem">
+      <div class="prog-lbl" style="font-weight:500;margin-bottom:10px">讀完這本書，你能回答這些問題嗎？</div>
+      <div class="prog-wrap"><div class="prog" id="prog" style="width:0%"></div></div>
+      <div class="prog-lbl" id="prog-lbl">0 / 10 完成</div>
+      <div style="margin-top:12px">
+        <div class="ck-item"><input type="checkbox" onchange="upProg()"><label class="ck-lbl">《開羅宣言》為什麼存在法律風險？它和一般條約有何不同？</label></div>
+        <div class="ck-item"><input type="checkbox" onchange="upProg()"><label class="ck-lbl">1971年聯合國2758號決議，是否明文說臺灣屬於中華人民共和國？</label></div>
+        <div class="ck-item"><input type="checkbox" onchange="upProg()"><label class="ck-lbl">「奧會模式」是如何形成的？中華民國政府何時拒絕了一個更好的機會？</label></div>
+        <div class="ck-item"><input type="checkbox" onchange="upProg()"><label class="ck-lbl">美中台「三公報一法」各是哪三份公報？《臺灣關係法》的法律性質是什麼？</label></div>
+        <div class="ck-item"><input type="checkbox" onchange="upProg()"><label class="ck-lbl">「外交承認」與「建交」有何差異？美國是否承認中華民國？</label></div>
+        <div class="ck-item"><input type="checkbox" onchange="upProg()"><label class="ck-lbl">光華寮事件的爭議核心是什麼？與「政府承認」問題有何關聯？</label></div>
+        <div class="ck-item"><input type="checkbox" onchange="upProg()"><label class="ck-lbl">國際法上除了國家以外，還有哪些「非國家實體」具有主體地位？</label></div>
+        <div class="ck-item"><input type="checkbox" onchange="upProg()"><label class="ck-lbl">臺灣目前以哪些「變形名稱」參與不同的國際組織？各有什麼背景？</label></div>
+        <div class="ck-item"><input type="checkbox" onchange="upProg()"><label class="ck-lbl">蒙特維多公約的「國家四要素」臺灣都具備，為何仍不被普遍承認為國家？</label></div>
+        <div class="ck-item"><input type="checkbox" onchange="upProg()"><label class="ck-lbl">本書最根本的問題是什麼？作者認為解決外交困境的前提條件是什麼？</label></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showP(id){
+  document.querySelectorAll('.pn').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pn-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+function tog(hd){
+  const bd=hd.nextElementSibling;
+  const chv=hd.querySelector('.chv');
+  bd.classList.toggle('o');
+  chv.classList.toggle('o');
+}
+function upProg(){
+  const total=document.querySelectorAll('.ck-item input').length;
+  const checked=document.querySelectorAll('.ck-item input:checked').length;
+  document.getElementById('prog').style.width=(checked/total*100)+'%';
+  document.getElementById('prog-lbl').textContent=checked+' / '+total+' 完成';
+}
+</script>
