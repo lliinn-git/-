@@ -1,0 +1,337 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.nav-btn {
+  padding: 6px 14px; font-size: 13px; font-weight: 500;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  background: var(--color-background-primary);
+  color: var(--color-text-secondary);
+  cursor: pointer; transition: all .15s;
+}
+.nav-btn.active {
+  background: var(--color-background-info);
+  color: var(--color-text-info);
+  border-color: var(--color-border-info);
+}
+.section { display: none; }
+.section.active { display: block; }
+.card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 14px 18px; margin-bottom: 12px;
+}
+.card-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
+.card-sub { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+.badge {
+  display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px;
+  border-radius: 10px; margin-right: 4px; margin-bottom: 4px;
+}
+.badge-blue { background: #E6F1FB; color: #0C447C; }
+.badge-teal { background: #E1F5EE; color: #085041; }
+.badge-amber { background: #FAEEDA; color: #633806; }
+.badge-coral { background: #FAECE7; color: #4A1B0C; }
+.badge-purple { background: #EEEDFE; color: #3C3489; }
+@media (prefers-color-scheme: dark) {
+  .badge-blue { background: #0C447C; color: #B5D4F4; }
+  .badge-teal { background: #085041; color: #9FE1CB; }
+  .badge-amber { background: #633806; color: #FAC775; }
+  .badge-coral { background: #4A1B0C; color: #F5C4B3; }
+  .badge-purple { background: #3C3489; color: #CECBF6; }
+}
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.concept-box {
+  border-radius: var(--border-radius-md);
+  padding: 12px 14px;
+  cursor: pointer; transition: opacity .15s;
+}
+.concept-box:hover { opacity: .85; }
+.concept-box .t { font-size: 14px; font-weight: 500; }
+.concept-box .s { font-size: 12px; margin-top: 4px; opacity: .75; line-height: 1.5; }
+.detail-panel {
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-md);
+  padding: 14px 16px; margin-top: 10px; min-height: 64px;
+  font-size: 13px; color: var(--color-text-secondary); line-height: 1.7;
+  transition: all .2s;
+}
+.detail-panel strong { color: var(--color-text-primary); font-weight: 500; }
+.q-block { border-left: 2.5px solid var(--color-border-info); padding-left: 12px; margin: 10px 0; }
+.q-text { font-size: 13px; font-style: italic; color: var(--color-text-secondary); line-height: 1.6; }
+.tag-row { margin-bottom: 8px; }
+.divider { height: 0.5px; background: var(--color-border-tertiary); margin: 14px 0; }
+.compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.compare-table th { text-align: left; padding: 6px 8px; color: var(--color-text-secondary); font-weight: 500; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.compare-table td { padding: 7px 8px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); line-height: 1.5; vertical-align: top; }
+.compare-table tr:last-child td { border-bottom: none; }
+.exp-item { padding: 10px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.exp-item:last-child { border-bottom: none; }
+.exp-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.exp-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+.arrow-chain { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+.chain-node { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 7px 12px; font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+.chain-arrow { color: var(--color-text-tertiary); font-size: 14px; }
+.highlight-box { background: var(--color-background-warning); border: 0.5px solid var(--color-border-warning); border-radius: var(--border-radius-md); padding: 10px 14px; font-size: 13px; color: var(--color-text-warning); line-height: 1.6; margin: 10px 0; }
+</style>
+
+<div style="padding: 1rem 0">
+  <div style="margin-bottom: 16px;">
+    <div style="font-size: 11px; color: var(--color-text-tertiary); margin-bottom: 4px;">當代社會學理論 · 4/8</div>
+    <div style="font-size: 20px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px;">社會世界的現象學</div>
+    <div style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.6;">用現象學的「互為主體性」補充韋伯的詮釋社會學，解釋一個既主觀又客觀的社會如何可能。</div>
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn active" onclick="show('overview')">課程架構</button>
+    <button class="nav-btn" onclick="show('weber')">韋伯與不足</button>
+    <button class="nav-btn" onclick="show('pheno')">現象學核心</button>
+    <button class="nav-btn" onclick="show('construct')">社會建構</button>
+    <button class="nav-btn" onclick="show('ethno')">俗民方法論</button>
+    <button class="nav-btn" onclick="show('exam')">期中考提示</button>
+  </div>
+
+  <!-- 課程架構 -->
+  <div class="section active" id="s-overview">
+    <div class="card">
+      <div class="card-title">本週核心問題</div>
+      <div class="card-sub">如果每個人對世界的認識都是主觀的，<strong>「客觀的社會世界」如何可能？</strong></div>
+    </div>
+    <div style="font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 14px 0 8px;">四大主題（點擊概念卡片看詳細說明）</div>
+    <div class="grid2">
+      <div class="concept-box" style="background:#E6F1FB" onclick="setDetail('weber-q')">
+        <div class="t" style="color:#0C447C">韋伯的詮釋社會學</div>
+        <div class="s" style="color:#185FA5">理解行動的主觀意義，但留下未解問題</div>
+      </div>
+      <div class="concept-box" style="background:#E1F5EE" onclick="setDetail('pheno-q')">
+        <div class="t" style="color:#085041">現象學的補充</div>
+        <div class="s" style="color:#0F6E56">Husserl、互為主體性、生活世界</div>
+      </div>
+      <div class="concept-box" style="background:#EEEDFE" onclick="setDetail('construct-q')">
+        <div class="t" style="color:#3C3489">社會實體的建構</div>
+        <div class="s" style="color:#534AB7">Berger & Luckmann，知識社會學</div>
+      </div>
+      <div class="concept-box" style="background:#FAEEDA" onclick="setDetail('ethno-q')">
+        <div class="t" style="color:#633806">俗民方法論</div>
+        <div class="s" style="color:#854F0B">Garfinkel，破壞實驗，社會秩序</div>
+      </div>
+    </div>
+    <div class="detail-panel" id="detail-main">點擊上方概念卡片，查看核心說明。</div>
+
+    <div class="divider"></div>
+    <div class="card-title" style="margin-bottom: 10px;">理論貫穿的核心邏輯</div>
+    <div class="arrow-chain">
+      <div class="chain-node">人有主觀意識</div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node">多人共享認知</div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node">互為主體性</div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node">客觀感產生</div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node">社會秩序形成</div>
+    </div>
+    <div style="font-size: 12px; color: var(--color-text-tertiary); margin-top: 4px;">社會的「客觀性」來自主體間的共識，而非獨立於人心之外的實體</div>
+  </div>
+
+  <!-- 韋伯與不足 -->
+  <div class="section" id="s-weber">
+    <div class="card">
+      <div class="tag-row"><span class="badge badge-blue">方法論個人主義</span><span class="badge badge-blue">詮釋社會學</span></div>
+      <div class="card-title">韋伯的核心主張</div>
+      <div class="card-sub">人與物不同，不能用自然科學方式研究社會。應透過<strong>詮釋（Verstehen）</strong>，理解行動者賦予行為的主觀意義。</div>
+    </div>
+    <div style="font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 14px 0 8px;">兩種詮釋方法</div>
+    <compare-placeholder></compare-placeholder>
+    <table class="compare-table" style="margin-bottom:14px;">
+      <tr><th>方法</th><th>意思</th><th>問題層次</th></tr>
+      <tr>
+        <td><strong>直接詮釋</strong></td>
+        <td>研究者直接觀察行動→理解行動者在做什麼</td>
+        <td>行動者在做什麼？</td>
+      </tr>
+      <tr>
+        <td><strong>說明詮釋</strong></td>
+        <td>間接推論行動者的動機與目的</td>
+        <td>行動者為什麼這樣做？</td>
+      </tr>
+    </table>
+
+    <div class="card">
+      <div class="tag-row"><span class="badge badge-coral">韋伯的不足</span></div>
+      <div class="card-title">遺留的問題</div>
+      <div class="card-sub">詮釋「如何可能」？觀察者憑什麼理解被觀察者的主觀意義？理解的正確度有差異嗎？</div>
+    </div>
+    <div class="q-block">
+      <div class="q-text">「你又不是魚，怎知道魚很快樂呢？」<br>——莊子 vs 惠施的辯論，正是韋伯問題的哲學版本</div>
+    </div>
+    <div class="highlight-box">韋伯的詮釋社會學奠基在許多<strong>未經說明的預設</strong>上，現象學的任務就是把這些預設說清楚。</div>
+  </div>
+
+  <!-- 現象學核心 -->
+  <div class="section" id="s-pheno">
+    <div class="card">
+      <div class="tag-row"><span class="badge badge-teal">Edmund Husserl</span><span class="badge badge-teal">1859–1938</span></div>
+      <div class="card-title">現象學是什麼？</div>
+      <div class="card-sub">研究人如何通過<strong>經驗</strong>認識外部世界。任何對外部世界的認識，都是經由行動者的<strong>感知（perception）</strong>所形成。</div>
+    </div>
+
+    <div style="font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 14px 0 8px;">三個核心概念（點擊展開）</div>
+
+    <div class="exp-item">
+      <div class="exp-title" onclick="toggleExp('e1')" style="cursor:pointer">⊕ 互為主體性（Intersubjectivity）</div>
+      <div id="e1" style="display:none">
+        <div class="exp-desc" style="margin-top:6px">「客觀」不是獨立於人心的實體，而是<strong>多個主體暫時共同確認的共識</strong>。當大家對世界的認識一致，世界就顯得客觀自然。</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-title" onclick="toggleExp('e2')" style="cursor:pointer">⊕ 生活世界與自然態度（Life World & Natural Attitude）</div>
+      <div id="e2" style="display:none">
+        <div class="exp-desc" style="margin-top:6px">生活世界是被視為理所當然的社會世界。行動者以<strong>自然態度</strong>身處其中，不去懷疑它的存在。不合常識的事情才會「被放入括弧」加以關注。</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-title" onclick="toggleExp('e3')" style="cursor:pointer">⊕ 他我（The Other Self）的預設</div>
+      <div id="e3" style="display:none">
+        <div class="exp-desc" style="margin-top:6px">詮釋他人行動時，我們會把他人想成自己，用<strong>自己的經驗</strong>去理解對方的意義。一度建構（主觀意義）vs 二度建構（觀察者詮釋）。</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="card-title" style="margin-bottom: 8px;">互為主體的穩固程度</div>
+    <table class="compare-table">
+      <tr><th>詮釋對象</th><th>關係</th><th>類型化程度</th><th>穩固度</th></tr>
+      <tr><td>面對面互動</td><td>直接經驗</td><td>低</td><td>低（但最準確）</td></tr>
+      <tr><td>同時代人</td><td>間接認識</td><td>中</td><td>中</td></tr>
+      <tr><td>前人/後人</td><td>類型認識</td><td>高</td><td>高（但距離最遠）</td></tr>
+    </table>
+    <div style="font-size:12px; color:var(--color-text-tertiary); margin-top:6px;">越匿名→越類型化→互為主體越穩固，但理解準確度越低</div>
+  </div>
+
+  <!-- 社會建構 -->
+  <div class="section" id="s-construct">
+    <div class="card">
+      <div class="tag-row"><span class="badge badge-purple">Berger & Luckmann</span><span class="badge badge-purple">知識社會學</span></div>
+      <div class="card-title">社會實體的建構</div>
+      <div class="card-sub">社會世界是被建構出來的，但一旦被建構，行動者就感覺它客觀地「在那裡」，與自己的主觀意識無關。</div>
+    </div>
+
+    <div style="font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 14px 0 8px;">社會化過程的四步驟</div>
+    <div class="arrow-chain">
+      <div class="chain-node" style="background:#EEEDFE;border-color:#AFA9EC;color:#3C3489">外化</div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node" style="background:#E1F5EE;border-color:#5DCAA5;color:#085041">客觀化</div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node" style="background:#FAEEDA;border-color:#EF9F27;color:#633806">內化</div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node" style="background:#FAECE7;border-color:#F0997B;color:#4A1B0C">制度化</div>
+    </div>
+    <div style="font-size: 12px; color: var(--color-text-tertiary);">主觀 → 客觀 → 再主觀（doing gender 即為例子）</div>
+
+    <div class="divider"></div>
+    <div class="card-title" style="margin-bottom: 10px;">共享知識庫（Common Stock of Knowledge）</div>
+    <div class="exp-item">
+      <div class="exp-title" onclick="toggleExp('k1')" style="cursor:pointer">⊕ 什麼是共享知識庫？</div>
+      <div id="k1" style="display:none"><div class="exp-desc" style="margin-top:6px">生活世界中的規則、方法、理念與訊息的總和，是行動者認識世界的<strong>參考架構</strong>。重點不在內容，而在於行動者<strong>假定彼此共享</strong>。</div></div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-title" onclick="toggleExp('k2')" style="cursor:pointer">⊕ 類型化知識（Typification）</div>
+      <div id="k2" style="display:none"><div class="exp-desc" style="margin-top:6px">將社會事物分類（英國人愛喝茶、商人愛錢）。互動對象越匿名，類型化程度越高。<strong>讓社會顯得安定、簡化複雜性</strong>，但也是歧視的來源。</div></div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-title" onclick="toggleExp('k3')" style="cursor:pointer">⊕ 處方知識為主</div>
+      <div id="k3" style="display:none"><div class="exp-desc" style="margin-top:6px">大多數共享知識是「怎麼做」（recipe），而非「為什麼」。知識的分布是<strong>社會性且不均等的</strong>，重疊程度影響詮釋的正確性。</div></div>
+    </div>
+
+    <div class="q-block" style="margin-top:12px">
+      <div class="q-text">「社會實體並非客觀，也非主觀，而是互為主體地存在。對於『真實』的確立，來自意識間的同意（intersubjective agreement）。」</div>
+    </div>
+  </div>
+
+  <!-- 俗民方法論 -->
+  <div class="section" id="s-ethno">
+    <div class="card">
+      <div class="tag-row"><span class="badge badge-amber">Harold Garfinkel</span><span class="badge badge-amber">Ethnomethodology</span></div>
+      <div class="card-title">俗民方法論</div>
+      <div class="card-sub">透過<strong>違反社會規範</strong>來發現規範的存在。行動者將遵守規範視為理所當然，唯有打破規範才能讓它現形。</div>
+    </div>
+
+    <div style="font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 14px 0 8px;">關鍵概念</div>
+    <div class="exp-item">
+      <div class="exp-title" onclick="toggleExp('g1')" style="cursor:pointer">⊕ 背景知識（Seen but Unnoticed）</div>
+      <div id="g1" style="display:none"><div class="exp-desc" style="margin-top:6px">互動時雙方預設對方知道相關背景，所以省略不說。這些背景「看得見但不會注意到」，直到被打破才浮現。</div></div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-title" onclick="toggleExp('g2')" style="cursor:pointer">⊕ 違反規範實驗（Breaching Experiment）</div>
+      <div id="g2" style="display:none"><div class="exp-desc" style="margin-top:6px">刻意挑戰行動者視為理所當然的「背景」。互動對象的反應：困惑 → 困擾 → <strong>義憤（righteous anger）</strong>。實驗危險但有力，因為規則只有在被破壞且受懲罰時才得以現形。</div></div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-title" onclick="toggleExp('g3')" style="cursor:pointer">⊕ 社會秩序的基礎</div>
+      <div id="g3" style="display:none"><div class="exp-desc" style="margin-top:6px">果凍豆實驗：顧客堅持多付錢，收銀員憤怒。發現的規範：<strong>互動者有幫助互動完成的道德義務</strong>。打破「交換」的基本預設，被視為道德冒犯。</div></div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="card-title" style="margin-bottom:8px;">果凍豆實驗的邏輯</div>
+    <div style="font-size:13px; color:var(--color-text-secondary); line-height:1.7; background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:12px 14px;">
+      <strong>場景：</strong>學生堅持以1美元購買35美分的果凍豆<br>
+      <strong>收銀員反應：</strong>從困惑 → 說明價格 → 指責「你瘋了嗎？」<br>
+      <strong>發現的規範：</strong>交易應依「公定價格」進行，任何「非理性」的額外付款都被視為對互動秩序的威脅
+    </div>
+  </div>
+
+  <!-- 期中考 -->
+  <div class="section" id="s-exam">
+    <div class="card">
+      <div class="tag-row"><span class="badge badge-coral">4/15（25%）</span><span class="badge badge-coral">15:50–18:20</span></div>
+      <div class="card-title">期中考資訊</div>
+      <div class="card-sub">測驗第一到第七週內容。選擇題＋簡答題，所有答案上課都講過。請用原子筆，不要遲到。</div>
+    </div>
+
+    <div style="font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 14px 0 8px;">可能重點概念複習</div>
+    <table class="compare-table">
+      <tr><th>概念</th><th>一句話定義</th></tr>
+      <tr><td><strong>Verstehen</strong></td><td>透過理解行動者主觀意義來研究社會</td></tr>
+      <tr><td><strong>現象學</strong></td><td>研究人如何通過經驗認識外部世界</td></tr>
+      <tr><td><strong>互為主體性</strong></td><td>「客觀」來自多個主體的暫時共同確認</td></tr>
+      <tr><td><strong>自然態度</strong></td><td>視生活世界為理所當然，不加質疑</td></tr>
+      <tr><td><strong>他我預設</strong></td><td>用自己的經驗詮釋他人行動的傾向</td></tr>
+      <tr><td><strong>類型化</strong></td><td>將社會事物分類形成共識，是歧視的來源</td></tr>
+      <tr><td><strong>違反規範實驗</strong></td><td>透過破壞規範讓隱性規範現形</td></tr>
+      <tr><td><strong>外化→客觀化→內化→制度化</strong></td><td>社會世界的建構與再生產過程</td></tr>
+    </table>
+  </div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+function setDetail(key) {
+  const details = {
+    'weber-q': '<strong>韋伯的詮釋社會學</strong>：社會科學應透過理解行動者的主觀意義來研究社會，而非用自然科學的方式。但他未說明「理解如何可能」。',
+    'pheno-q': '<strong>現象學的補充</strong>：Husserl 指出所有認識都經由感知為中介。Schutz 引入互為主體性概念，說明觀察者如何（近似地）理解他人的主觀世界。',
+    'construct-q': '<strong>社會實體的建構</strong>：Berger & Luckmann 主張社會是被建構的，但建構後感覺客觀。知識社會學關注意識的來源、生產與分布。',
+    'ethno-q': '<strong>俗民方法論</strong>：Garfinkel 認為最有效發現社會規範的方式，是故意打破它。社會秩序建立在行動者相互配合完成互動的道德義務上。'
+  };
+  const panel = document.getElementById('detail-main');
+  panel.innerHTML = details[key] || '點擊卡片查看說明。';
+  panel.style.background = 'var(--color-background-info)';
+  setTimeout(() => { panel.style.background = ''; }, 600);
+}
+function toggleExp(id) {
+  const el = document.getElementById(id);
+  const parent = el.previousElementSibling;
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    parent.textContent = parent.textContent.replace('⊕', '⊖');
+  } else {
+    el.style.display = 'none';
+    parent.textContent = parent.textContent.replace('⊖', '⊕');
+  }
+}
+</script>
