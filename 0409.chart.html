@@ -1,0 +1,179 @@
+
+<style>
+.mw{font-family:var(--font-sans);}
+.leg{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px;font-size:13px;color:var(--color-text-secondary);}
+.li{display:flex;align-items:center;gap:6px;}
+.ld{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.tip{position:absolute;pointer-events:none;display:none;background:var(--color-background-primary);border:1px solid var(--color-border-secondary);border-radius:12px;padding:12px 16px;font-size:13px;max-width:210px;line-height:1.6;z-index:20;box-shadow:0 4px 16px rgba(0,0,0,.1);}
+.tn{font-size:15px;font-weight:500;margin-bottom:5px;}
+.tr{display:flex;justify-content:space-between;gap:14px;font-size:12px;}
+.tl{color:var(--color-text-secondary);}
+.tv{font-weight:500;}
+.det{margin-top:12px;border-radius:14px;padding:16px 20px;border:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);min-height:80px;}
+.dh{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.df{font-size:36px;}
+.dn{font-size:17px;font-weight:500;}
+.de{font-size:12px;color:var(--color-text-secondary);}
+.dsc{margin-left:auto;display:flex;gap:16px;}
+.dsb{text-align:center;}
+.dsl{font-size:10px;color:var(--color-text-secondary);}
+.dsv{font-size:22px;font-weight:500;}
+.dbars{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;}
+.dax{background:var(--color-background-primary);border-radius:10px;padding:10px 12px;border:.5px solid var(--color-border-tertiary);}
+.dat{font-size:10px;font-weight:500;color:var(--color-text-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;}
+.dbr{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.dbl{font-size:11px;color:var(--color-text-secondary);width:80px;flex-shrink:0;}
+.dbt{flex:1;height:5px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden;}
+.dbf{height:5px;border-radius:3px;}
+.dbs{font-size:11px;font-weight:500;width:36px;text-align:right;flex-shrink:0;}
+.dq{margin-top:8px;font-size:11px;padding:6px 10px;border-radius:6px;display:inline-block;font-weight:500;}
+.dht{font-size:12px;color:var(--color-text-secondary);margin-top:6px;line-height:1.6;}
+.ph{font-size:13px;color:var(--color-text-secondary);padding:8px 0;}
+</style>
+<div class="mw">
+<div class="leg">
+  <div class="li"><div class="ld" style="background:#185FA5;"></div>拉美／加勒比</div>
+  <div class="li"><div class="ld" style="background:#1D9E75;"></div>大洋洲</div>
+  <div class="li"><div class="ld" style="background:#533AB7;"></div>歐洲</div>
+  <div class="li"><div class="ld" style="background:#BA7517;"></div>非洲</div>
+  <div class="li" style="margin-left:auto;font-size:12px;">圓圈大小 = 地區體量　點擊查看詳情</div>
+</div>
+<div style="position:relative;">
+<svg id="svg" width="100%" viewBox="0 0 680 480" style="display:block;cursor:default;">
+  <defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="var(--color-border-secondary)" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+  <rect x="76" y="28" width="264" height="210" rx="6" fill="#1D9E7506"/>
+  <rect x="340" y="28" width="296" height="210" rx="6" fill="#185FA506"/>
+  <rect x="76" y="238" width="264" height="210" rx="6" fill="#53528406"/>
+  <rect x="340" y="238" width="296" height="210" rx="6" fill="#C0482806"/>
+  <text x="86" y="48" font-size="12" font-family="var(--font-sans)" fill="#1D9E75" opacity=".6" font-weight="500">低影響力 × 高穩定　穩固支柱</text>
+  <text x="350" y="48" font-size="12" font-family="var(--font-sans)" fill="#185FA5" opacity=".6" font-weight="500">高影響力 × 高穩定　核心盟友</text>
+  <text x="86" y="256" font-size="12" font-family="var(--font-sans)" fill="#533AB7" opacity=".6" font-weight="500">低影響力 × 低穩定　觀察名單</text>
+  <text x="350" y="256" font-size="12" font-family="var(--font-sans)" fill="#C04828" opacity=".6" font-weight="500">高影響力 × 低穩定　高風險警戒</text>
+  <line x1="76" y1="448" x2="636" y2="448" stroke="var(--color-border-secondary)" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="76" y1="448" x2="76" y2="18" stroke="var(--color-border-secondary)" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="340" y1="28" x2="340" y2="448" stroke="var(--color-border-secondary)" stroke-width=".5" stroke-dasharray="5 4"/>
+  <line x1="76" y1="238" x2="632" y2="238" stroke="var(--color-border-secondary)" stroke-width=".5" stroke-dasharray="5 4"/>
+  <text x="340" y="468" font-size="12" font-family="var(--font-sans)" fill="var(--color-text-secondary)" text-anchor="middle">對台灣的重要性（失去的代價）→</text>
+  <text x="22" y="238" font-size="12" font-family="var(--font-sans)" fill="var(--color-text-secondary)" text-anchor="middle" transform="rotate(-90,22,238)">邦交穩定性 →</text>
+  <text x="78" y="464" font-size="11" font-family="var(--font-sans)" fill="var(--color-text-secondary)">0</text>
+  <text x="622" y="464" font-size="11" font-family="var(--font-sans)" fill="var(--color-text-secondary)">100</text>
+  <text x="78" y="26" font-size="11" font-family="var(--font-sans)" fill="var(--color-text-secondary)">100</text>
+  <g id="nodes"></g>
+</svg>
+<div class="tip" id="tip"></div>
+</div>
+<div class="det" id="det"><div class="ph">👆 點擊任一國家查看詳細分析</div></div>
+</div>
+<script>
+const A=[
+  {id:'va',f:'🇻🇦',n:'梵蒂岡',e:'Holy See',r:'europe',x:48,y:61,geo:14,
+   xd:[{l:'地緣戰略',s:15,m:45,c:'#185FA5'},{l:'國際發聲',s:30,m:35,c:'#378ADD'},{l:'地區體量',s:3,m:20,c:'#85B7EB'}],
+   yd:[{l:'抵禦中國誘引',s:29,m:40,c:'#0F6E56'},{l:'政黨輪替風險',s:27,m:35,c:'#1D9E75'},{l:'援助依存',s:5,m:25,c:'#5DCAA5'}],
+   q:'核心盟友',qc:'#185FA5',qb:'#E6F1FB',
+   h:'影響力因刪除「存在證明象徵意義」指標而下修——梵蒂岡的真正價值難以量化，是本指標體系的方法論限制。'},
+  {id:'py',f:'🇵🇾',n:'巴拉圭',e:'Paraguay',r:'latin',x:71,y:73,geo:18,
+   xd:[{l:'地緣戰略',s:31,m:45,c:'#185FA5'},{l:'國際發聲',s:23,m:35,c:'#378ADD'},{l:'地區體量',s:17,m:20,c:'#85B7EB'}],
+   yd:[{l:'抵禦中國誘引',s:35,m:40,c:'#0F6E56'},{l:'政黨輪替風險',s:29,m:35,c:'#1D9E75'},{l:'援助依存',s:9,m:25,c:'#5DCAA5'}],
+   q:'核心盟友',qc:'#185FA5',qb:'#E6F1FB',
+   h:'南美唯一邦交國，科羅拉多黨反共意識形態使抵禦中國誘引得到最高分（35/40）。'},
+  {id:'gt',f:'🇬🇹',n:'瓜地馬拉',e:'Guatemala',r:'latin',x:65,y:65,geo:16,
+   xd:[{l:'地緣戰略',s:28,m:45,c:'#185FA5'},{l:'國際發聲',s:21,m:35,c:'#378ADD'},{l:'地區體量',s:16,m:20,c:'#85B7EB'}],
+   yd:[{l:'抵禦中國誘引',s:29,m:40,c:'#0F6E56'},{l:'政黨輪替風險',s:27,m:35,c:'#1D9E75'},{l:'援助依存',s:9,m:25,c:'#5DCAA5'}],
+   q:'核心盟友',qc:'#185FA5',qb:'#E6F1FB',
+   h:'中美洲人口最多的邦交國，阿雷瓦洛政府的民主價值取向提升穩定性，但複雜政黨體系是中期風險。'},
+  {id:'pw',f:'🇵🇼',n:'帛琉',e:'Palau',r:'ocean',x:68,y:86,geo:10,
+   xd:[{l:'地緣戰略',s:42,m:45,c:'#185FA5'},{l:'國際發聲',s:22,m:35,c:'#378ADD'},{l:'地區體量',s:4,m:20,c:'#85B7EB'}],
+   yd:[{l:'抵禦中國誘引',s:36,m:40,c:'#0F6E56'},{l:'政黨輪替風險',s:31,m:35,c:'#1D9E75'},{l:'援助依存',s:19,m:25,c:'#5DCAA5'}],
+   q:'核心盟友',qc:'#185FA5',qb:'#E6F1FB',
+   h:'12國中穩定性最高（86分）。地緣戰略幾近滿分（42/45）：第一島鏈節點、自由聯合協定雙重保障。'},
+  {id:'mh',f:'🇲🇭',n:'馬紹爾群島',e:'Marshall Islands',r:'ocean',x:60,y:76,geo:12,
+   xd:[{l:'地緣戰略',s:33,m:45,c:'#185FA5'},{l:'國際發聲',s:22,m:35,c:'#378ADD'},{l:'地區體量',s:5,m:20,c:'#85B7EB'}],
+   yd:[{l:'抵禦中國誘引',s:32,m:40,c:'#0F6E56'},{l:'政黨輪替風險',s:28,m:35,c:'#1D9E75'},{l:'援助依存',s:16,m:25,c:'#5DCAA5'}],
+   q:'核心盟友',qc:'#185FA5',qb:'#E6F1FB',
+   h:'太平洋防衛軸線重要節點，自由聯合協定提供結構性約束。2019年大選有反對派靠近北京，2024年COFA延宕期間總統公開示警北京誘引壓力。'},
+  {id:'bz',f:'🇧🇿',n:'貝里斯',e:'Belize',r:'latin',x:48,y:72,geo:11,
+   xd:[{l:'地緣戰略',s:22,m:45,c:'#185FA5'},{l:'國際發聲',s:15,m:35,c:'#378ADD'},{l:'地區體量',s:11,m:20,c:'#85B7EB'}],
+   yd:[{l:'抵禦中國誘引',s:27,m:40,c:'#0F6E56'},{l:'政黨輪替風險',s:29,m:35,c:'#1D9E75'},{l:'援助依存',s:16,m:25,c:'#5DCAA5'}],
+   q:'穩固支柱',qc:'#1D9E75',qb:'#E1F5EE',
+   h:'政黨輪替風險更新為29/35：UDP明確聲明堅定支持台灣，PUP現任政府在議會通過譴責中國軍事行動決議，兩黨均有具體親台紀錄。'},
+  {id:'ht',f:'🇭🇹',n:'海地',e:'Haiti',r:'latin',x:46,y:42,geo:15,
+   xd:[{l:'地緣戰略',s:24,m:45,c:'#185FA5'},{l:'國際發聲',s:9,m:35,c:'#378ADD'},{l:'地區體量',s:13,m:20,c:'#85B7EB'}],
+   yd:[{l:'抵禦中國誘引',s:12,m:40,c:'#0F6E56'},{l:'政黨輪替風險',s:10,m:35,c:'#1D9E75'},{l:'援助依存',s:20,m:25,c:'#5DCAA5'}],
+   q:'高風險警戒',qc:'#C04828',qb:'#FCE4D6',
+   h:'失敗國家悖論：台灣是其軍隊唯一裝備供應國（援助依存20/25），但北京透過UNSC 2743號決議介入後，海地公開致謝並示意願保持溝通（抵禦誘引12/40）。'},
+  {id:'kn',f:'🇰🇳',n:'聖基茨及尼維斯',e:'Saint Kitts and Nevis',r:'latin',x:28,y:75,geo:8,
+   xd:[{l:'地緣戰略',s:13,m:45,c:'#185FA5'},{l:'國際發聲',s:11,m:35,c:'#378ADD'},{l:'地區體量',s:4,m:20,c:'#85B7EB'}],
+   yd:[{l:'抵禦中國誘引',s:29,m:40,c:'#0F6E56'},{l:'政黨輪替風險',s:30,m:35,c:'#1D9E75'},{l:'援助依存',s:16,m:25,c:'#5DCAA5'}],
+   q:'穩固支柱',qc:'#1D9E75',qb:'#E1F5EE',
+   h:'政黨輪替風險更新為30/35：2023年執政黨總理提案、反對黨領袖附議，國會聯合通過支持台灣決議，跨黨派共識是12國中最明確的之一。'},
+  {id:'lc',f:'🇱🇨',n:'聖露西亞',e:'Saint Lucia',r:'latin',x:32,y:59,geo:10,
+   xd:[{l:'地緣戰略',s:13,m:45,c:'#185FA5'},{l:'國際發聲',s:14,m:35,c:'#378ADD'},{l:'地區體量',s:5,m:20,c:'#85B7EB'}],
+   yd:[{l:'抵禦中國誘引',s:23,m:40,c:'#0F6E56'},{l:'政黨輪替風險',s:18,m:35,c:'#1D9E75'},{l:'援助依存',s:18,m:25,c:'#5DCAA5'}],
+   q:'觀察名單',qc:'#533AB7',qb:'#EAD1DC',
+   h:'地緣分數更新為13/45（與聖基茨並列），原本14分的1分差距無依據。乒乓外交歷史使政黨輪替風險仍在，但援助在地化深度是穩定機制。'},
+  {id:'vc',f:'🇻🇨',n:'聖文森及格瑞那丁',e:'Saint Vincent and the Grenadines',r:'latin',x:33,y:36,geo:10,
+   xd:[{l:'地緣戰略',s:15,m:45,c:'#185FA5'},{l:'國際發聲',s:13,m:35,c:'#378ADD'},{l:'地區體量',s:5,m:20,c:'#85B7EB'}],
+   yd:[{l:'抵禦中國誘引',s:12,m:40,c:'#0F6E56'},{l:'政黨輪替風險',s:8,m:35,c:'#1D9E75'},{l:'援助依存',s:16,m:25,c:'#5DCAA5'}],
+   q:'高風險警戒',qc:'#C04828',qb:'#FCE4D6',
+   h:'當前12國中外交風險最高。NDP政黨輪替風險（8/35）＋中國貿易依存42倍＝最危險的組合。2026-2027年是關鍵觀察窗口。'},
+  {id:'tv',f:'🇹🇻',n:'吐瓦魯',e:'Tuvalu',r:'ocean',x:38,y:73,geo:8,
+   xd:[{l:'地緣戰略',s:19,m:45,c:'#185FA5'},{l:'國際發聲',s:15,m:35,c:'#378ADD'},{l:'地區體量',s:4,m:20,c:'#85B7EB'}],
+   yd:[{l:'抵禦中國誘引',s:28,m:40,c:'#0F6E56'},{l:'政黨輪替風險',s:27,m:35,c:'#1D9E75'},{l:'援助依存',s:18,m:25,c:'#5DCAA5'}],
+   q:'穩固支柱',qc:'#1D9E75',qb:'#E1F5EE',
+   h:'氣候生存外交使其依賴台灣的技術持續援助。長期風險在「援助依存」指標中體現，與抵禦中國誘引能力為獨立面向。'},
+  {id:'sz',f:'🇸🇿',n:'史瓦帝尼',e:'Eswatini',r:'africa',x:46,y:73,geo:12,
+   xd:[{l:'地緣戰略',s:21,m:45,c:'#185FA5'},{l:'國際發聲',s:16,m:35,c:'#378ADD'},{l:'地區體量',s:9,m:20,c:'#85B7EB'}],
+   yd:[{l:'抵禦中國誘引',s:28,m:40,c:'#0F6E56'},{l:'政黨輪替風險',s:32,m:35,c:'#1D9E75'},{l:'援助依存',s:13,m:25,c:'#5DCAA5'}],
+   q:'穩固支柱',qc:'#1D9E75',qb:'#E1F5EE',
+   h:'絕對君主制使政黨輪替分數最高（32/35），但外交完全取決於國王個人意志——「零政黨風險」背後是個體決策高度集中的另一種風險。'},
+];
+const RC={va:'#533AB7',py:'#185FA5',gt:'#185FA5',pw:'#1D9E75',mh:'#1D9E75',bz:'#185FA5',ht:'#185FA5',kn:'#185FA5',lc:'#185FA5',vc:'#185FA5',tv:'#1D9E75',sz:'#BA7517'};
+function toSVG(px,py){return{sx:100+px*5.2,sy:430-py*4.0};}
+const g=document.getElementById('nodes'),tip=document.getElementById('tip'),det=document.getElementById('det');
+let sel=null;
+A.forEach(a=>{
+  const{sx,sy}=toSVG(a.x,a.y);
+  const col=RC[a.id],r=10+a.geo*.55;
+  const node=document.createElementNS('http://www.w3.org/2000/svg','g');
+  node.style.cursor='pointer';
+  const circ=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  circ.setAttribute('cx',sx);circ.setAttribute('cy',sy);circ.setAttribute('r',r);
+  circ.setAttribute('fill',col);circ.setAttribute('fill-opacity','0.18');
+  circ.setAttribute('stroke',col);circ.setAttribute('stroke-width','1.5');
+  node.appendChild(circ);
+  const em=document.createElementNS('http://www.w3.org/2000/svg','text');
+  em.setAttribute('x',sx);em.setAttribute('y',sy+1);
+  em.setAttribute('text-anchor','middle');em.setAttribute('dominant-baseline','central');
+  em.setAttribute('font-size','15');em.textContent=a.f;
+  node.appendChild(em);
+  const lbl=document.createElementNS('http://www.w3.org/2000/svg','text');
+  lbl.setAttribute('x',sx);lbl.setAttribute('y',sy+r+13);
+  lbl.setAttribute('text-anchor','middle');lbl.setAttribute('font-size','11');
+  lbl.setAttribute('font-family','var(--font-sans)');lbl.setAttribute('fill','var(--color-text-secondary)');
+  lbl.textContent=a.n.split('及')[0].split('和')[0];
+  node.appendChild(lbl);
+  node.addEventListener('mouseenter',e=>{
+    if(sel!==a.id){circ.setAttribute('fill-opacity','0.32');circ.setAttribute('stroke-width','2.5');}
+    tip.style.display='block';
+    tip.innerHTML=`<div class="tn">${a.f} ${a.n}</div><div class="tr"><span class="tl">重要性</span><span class="tv" style="color:#185FA5;">${a.x}/100</span></div><div class="tr"><span class="tl">穩定性</span><span class="tv" style="color:#0F6E56;">${a.y}/100</span></div><div class="tr"><span class="tl">象限</span><span class="tv" style="color:${a.qc};">${a.q}</span></div>`;
+  });
+  node.addEventListener('mousemove',e=>{
+    const wr=document.querySelector('.mw').getBoundingClientRect();
+    let lx=e.clientX-wr.left+14,ly=e.clientY-wr.top+14;
+    if(lx+220>wr.width)lx-=240;
+    tip.style.left=lx+'px';tip.style.top=ly+'px';
+  });
+  node.addEventListener('mouseleave',()=>{
+    if(sel!==a.id){circ.setAttribute('fill-opacity','0.18');circ.setAttribute('stroke-width','1.5');}
+    tip.style.display='none';
+  });
+  node.addEventListener('click',()=>{
+    g.querySelectorAll('circle').forEach(c=>{c.setAttribute('fill-opacity','0.18');c.setAttribute('stroke-width','1.5');});
+    sel=a.id;circ.setAttribute('fill-opacity','0.42');circ.setAttribute('stroke-width','3');
+    const xB=a.xd.map(d=>`<div class="dbr"><span class="dbl">${d.l}</span><div class="dbt"><div class="dbf" style="width:${Math.round(d.s/d.m*100)}%;background:${d.c};"></div></div><span class="dbs" style="color:${d.c};">${d.s}/${d.m}</span></div>`).join('');
+    const yB=a.yd.map(d=>`<div class="dbr"><span class="dbl">${d.l}</span><div class="dbt"><div class="dbf" style="width:${Math.round(d.s/d.m*100)}%;background:${d.c};"></div></div><span class="dbs" style="color:${d.c};">${d.s}/${d.m}</span></div>`).join('');
+    det.innerHTML=`<div class="dh"><div class="df">${a.f}</div><div><div class="dn">${a.n}</div><div class="de">${a.e}</div></div><div class="dsc"><div class="dsb"><div class="dsl">重要性</div><div class="dsv" style="color:#185FA5;">${a.x}</div></div><div class="dsb"><div class="dsl">穩定性</div><div class="dsv" style="color:#0F6E56;">${a.y}</div></div></div></div><div class="dbars"><div class="dax"><div class="dat">🌐 重要性指標</div>${xB}</div><div class="dax"><div class="dat">🔒 穩定性指標</div>${yB}</div></div><div class="dq" style="background:${a.qb};color:${a.qc};">象限：${a.q}</div><div class="dht">${a.h}</div>`;
+  });
+  g.appendChild(node);
+});
+</script>
