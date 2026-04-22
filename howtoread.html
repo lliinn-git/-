@@ -1,0 +1,494 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --serif: 'Noto Serif TC', 'Source Han Serif TC', serif; }
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&display=swap');
+
+  body-wrap { font-family: var(--serif); }
+
+  .outer { font-family: var(--serif); padding: 1.5rem 1rem 2rem; max-width: 720px; margin: 0 auto; }
+
+  /* Header */
+  .book-header { border-bottom: 0.5px solid var(--color-border-tertiary); padding-bottom: 1.2rem; margin-bottom: 1.5rem; }
+  .book-title { font-size: 22px; font-weight: 700; color: var(--color-text-primary); line-height: 1.4; }
+  .book-author { font-size: 14px; color: var(--color-text-secondary); margin-top: 4px; }
+  .book-meta { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .tag { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 999px; border: 0.5px solid var(--color-border-secondary); color: var(--color-text-secondary); background: var(--color-background-secondary); font-family: var(--serif); }
+
+  /* Nav tabs */
+  .nav { display: flex; gap: 4px; margin-bottom: 1.5rem; flex-wrap: wrap; border-bottom: 0.5px solid var(--color-border-tertiary); padding-bottom: 0; }
+  .nav-btn { font-family: var(--serif); font-size: 13px; padding: 6px 14px; border: none; background: none; color: var(--color-text-secondary); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -0.5px; transition: all .2s; }
+  .nav-btn:hover { color: var(--color-text-primary); }
+  .nav-btn.active { color: var(--color-text-primary); border-bottom: 2px solid var(--color-text-primary); font-weight: 500; }
+
+  /* Panel */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* Section card */
+  .sec { border: 0.5px solid var(--color-border-tertiary); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; }
+  .sec-head { display: flex; align-items: center; justify-content: space-between; padding: .8rem 1rem; cursor: pointer; background: var(--color-background-secondary); user-select: none; }
+  .sec-head:hover { background: var(--color-background-tertiary); }
+  .sec-label { display: flex; align-items: center; gap: 10px; }
+  .sec-icon { font-size: 18px; width: 28px; text-align: center; }
+  .sec-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); font-family: var(--serif); }
+  .sec-subtitle { font-size: 12px; color: var(--color-text-secondary); margin-top: 1px; font-family: var(--serif); }
+  .chevron { font-size: 11px; color: var(--color-text-tertiary); transition: transform .25s; }
+  .chevron.open { transform: rotate(90deg); }
+  .sec-body { display: none; padding: 1rem; border-top: 0.5px solid var(--color-border-tertiary); }
+  .sec-body.open { display: block; }
+
+  /* Content inside body */
+  .def { margin-bottom: .9rem; }
+  .def-term { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 3px; font-family: var(--serif); }
+  .def-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.7; font-family: var(--serif); }
+  .quote { border-left: 2px solid var(--color-border-secondary); padding: 6px 12px; margin: .8rem 0; font-size: 13px; color: var(--color-text-secondary); line-height: 1.7; font-style: italic; font-family: var(--serif); }
+  .rules-list { list-style: none; padding: 0; }
+  .rules-list li { display: flex; gap: 8px; padding: 7px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 13px; color: var(--color-text-primary); line-height: 1.6; font-family: var(--serif); }
+  .rules-list li:last-child { border-bottom: none; }
+  .rule-num { font-size: 11px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 50%; border: 0.5px solid var(--color-border-secondary); display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); margin-top: 1px; flex-shrink: 0; }
+
+  /* Level map */
+  .level-map { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .level-row { display: flex; align-items: stretch; gap: 10px; }
+  .level-bar { width: 4px; border-radius: 2px; flex-shrink: 0; }
+  .level-content { flex: 1; }
+  .level-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); font-family: var(--serif); }
+  .level-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; margin-top: 2px; font-family: var(--serif); }
+  .l1 { background: #B4B2A9; }
+  .l2 { background: #7F77DD; }
+  .l3 { background: #1D9E75; }
+  .l4 { background: #BA7517; }
+
+  /* Goal panel */
+  .goal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(0, 1fr)); gap: 8px; }
+  .goal-card { border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; padding: .8rem 1rem; background: var(--color-background-secondary); }
+  .goal-q { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .04em; font-family: var(--serif); }
+  .goal-a { font-size: 13px; color: var(--color-text-primary); line-height: 1.6; font-family: var(--serif); }
+
+  /* Key insight */
+  .insight { background: var(--color-background-secondary); border-radius: 10px; padding: .9rem 1rem; margin-bottom: .8rem; }
+  .insight-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; font-family: var(--serif); }
+  .insight-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.7; font-family: var(--serif); }
+
+  /* Progress tracker */
+  .tracker { border: 0.5px solid var(--color-border-tertiary); border-radius: 12px; padding: 1rem; }
+  .tracker-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 12px; font-family: var(--serif); }
+  .check-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .check-item:last-child { border-bottom: none; }
+  .check-item input[type=checkbox] { margin-top: 2px; flex-shrink: 0; cursor: pointer; }
+  .check-label { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; font-family: var(--serif); }
+  .progress-bar-wrap { height: 4px; background: var(--color-background-tertiary); border-radius: 2px; margin: 12px 0 4px; overflow: hidden; }
+  .progress-bar { height: 4px; background: var(--color-text-secondary); border-radius: 2px; transition: width .3s; }
+  .progress-label { font-size: 12px; color: var(--color-text-tertiary); font-family: var(--serif); }
+</style>
+
+<div class="outer">
+  <div class="book-header">
+    <div class="book-title">如何閱讀一本書</div>
+    <div class="book-author">Mortimer J. Adler &amp; Charles Van Doren</div>
+    <div class="book-meta">
+      <span class="tag">閱讀方法</span>
+      <span class="tag">認識論</span>
+      <span class="tag">自我教育</span>
+      <span class="tag">經典重讀</span>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn active" onclick="showPanel('overview')">全書概覽</button>
+    <button class="nav-btn" onclick="showPanel('levels')">四個層次</button>
+    <button class="nav-btn" onclick="showPanel('rules')">閱讀規則</button>
+    <button class="nav-btn" onclick="showPanel('types')">書的類型</button>
+    <button class="nav-btn" onclick="showPanel('insights')">核心洞見</button>
+    <button class="nav-btn" onclick="showPanel('checklist')">自我檢核</button>
+  </div>
+
+  <!-- 全書概覽 -->
+  <div class="panel active" id="panel-overview">
+    <div class="sec">
+      <div class="sec-head" onclick="toggleSec(this)">
+        <div class="sec-label">
+          <span class="sec-icon">📖</span>
+          <div>
+            <div class="sec-title">本書的核心問題</div>
+            <div class="sec-subtitle">為什麼我們需要學習「如何閱讀」？</div>
+          </div>
+        </div>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="sec-body">
+        <div class="quote">「閱讀是一種主動的行為，閱讀的藝術在於一個人在閱讀時做了什麼，以及他如何做。」</div>
+        <div class="def">
+          <div class="def-term">被動閱讀 vs. 主動閱讀</div>
+          <div class="def-desc">大多數人只是「翻書」，讓文字流過眼前，沒有真正理解。主動閱讀是與作者對話——帶著問題去讀，並嘗試從書中找到答案。</div>
+        </div>
+        <div class="def">
+          <div class="def-term">閱讀的目的</div>
+          <div class="def-desc">分為兩種：娛樂（消遣）與理解（學習）。本書聚焦於後者——如何透過閱讀提升自己的理解力，實現「自我教育」。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head" onclick="toggleSec(this)">
+        <div class="sec-label">
+          <span class="sec-icon">🗺</span>
+          <div>
+            <div class="sec-title">全書架構一覽</div>
+            <div class="sec-subtitle">四個部分，層層遞進</div>
+          </div>
+        </div>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="sec-body">
+        <div class="level-map">
+          <div class="level-row">
+            <div class="level-bar l1"></div>
+            <div class="level-content">
+              <div class="level-name">第一部｜閱讀的層次</div>
+              <div class="level-desc">介紹閱讀的四個層次框架，點出大多數人停在最低層。</div>
+            </div>
+          </div>
+          <div class="level-row">
+            <div class="level-bar l2"></div>
+            <div class="level-content">
+              <div class="level-name">第二部｜分析閱讀</div>
+              <div class="level-desc">最核心的部分。詳述分析閱讀的十五條規則，如何深讀一本書。</div>
+            </div>
+          </div>
+          <div class="level-row">
+            <div class="level-bar l3"></div>
+            <div class="level-content">
+              <div class="level-name">第三部｜不同讀物的閱讀方法</div>
+              <div class="level-desc">針對小說、歷史、科學、哲學、數學等各類書籍的專門技巧。</div>
+            </div>
+          </div>
+          <div class="level-row">
+            <div class="level-bar l4"></div>
+            <div class="level-content">
+              <div class="level-name">第四部｜主題閱讀</div>
+              <div class="level-desc">最高層次。圍繞一個主題，同時閱讀多本書，形成自己的觀點。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 四個層次 -->
+  <div class="panel" id="panel-levels">
+    <div class="sec">
+      <div class="sec-head" onclick="toggleSec(this)">
+        <div class="sec-label">
+          <span class="sec-icon">①</span>
+          <div>
+            <div class="sec-title">基礎閱讀（Elementary Reading）</div>
+            <div class="sec-subtitle">識字層次</div>
+          </div>
+        </div>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="sec-body">
+        <div class="def-desc">能夠辨識文字、理解句子表面意思。「這句話說了什麼？」——小學程度，大多數識字的人都具備。</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head" onclick="toggleSec(this)">
+        <div class="sec-label">
+          <span class="sec-icon">②</span>
+          <div>
+            <div class="sec-title">檢視閱讀（Inspectional Reading）</div>
+            <div class="sec-subtitle">有系統的略讀</div>
+          </div>
+        </div>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="sec-body">
+        <div class="def">
+          <div class="def-term">目標：在有限時間內，盡量掌握一本書的全貌。</div>
+          <div class="def-desc">分為兩種方式：</div>
+        </div>
+        <ul class="rules-list">
+          <li><span class="rule-num">A</span><span>有系統的略讀：看書名頁、序言、目錄、索引，再抽讀幾個段落，快速判斷這本書是否值得深讀。</span></li>
+          <li><span class="rule-num">B</span><span>粗淺的閱讀：從頭到尾讀一遍，遇到不懂的地方不要停下來，先整體掌握再回頭細讀。</span></li>
+        </ul>
+        <div class="quote">「每本書都應該先快讀一遍。」這是許多讀者忽略的技巧。</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head" onclick="toggleSec(this)">
+        <div class="sec-label">
+          <span class="sec-icon">③</span>
+          <div>
+            <div class="sec-title">分析閱讀（Analytical Reading）</div>
+            <div class="sec-subtitle">深度閱讀，與作者對話</div>
+          </div>
+        </div>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="sec-body">
+        <div class="def-desc" style="margin-bottom:10px">最需要時間與專注的層次。分三個階段，共十五條規則（見「閱讀規則」頁）。</div>
+        <div class="goal-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="goal-card">
+            <div class="goal-q">第一階段</div>
+            <div class="goal-a">架構分析<br>書在談什麼？</div>
+          </div>
+          <div class="goal-card">
+            <div class="goal-q">第二階段</div>
+            <div class="goal-a">詮釋內容<br>作者說了什麼？</div>
+          </div>
+          <div class="goal-card">
+            <div class="goal-q">第三階段</div>
+            <div class="goal-a">批判評估<br>說得有道理嗎？</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head" onclick="toggleSec(this)">
+        <div class="sec-label">
+          <span class="sec-icon">④</span>
+          <div>
+            <div class="sec-title">主題閱讀（Syntopical Reading）</div>
+            <div class="sec-subtitle">最高層次，跨書比較</div>
+          </div>
+        </div>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="sec-body">
+        <div class="def">
+          <div class="def-term">針對同一主題，閱讀多本相關書籍。</div>
+          <div class="def-desc">不是讓任何一位作者替你說話，而是由讀者自己主導討論，構建出一個各書都未曾存在的分析框架。讀者成為「裁判」，作者成為「證人」。</div>
+        </div>
+        <ul class="rules-list">
+          <li><span class="rule-num">1</span>找出與主題相關的書單（先用檢視閱讀篩選）</li>
+          <li><span class="rule-num">2</span>建立中性詞彙，讓不同作者能彼此「對話」</li>
+          <li><span class="rule-num">3</span>找出各書對主題的核心問題與立場</li>
+          <li><span class="rule-num">4</span>分析異同，形成辯題</li>
+          <li><span class="rule-num">5</span>整理出多元觀點，不強求定論</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 閱讀規則 -->
+  <div class="panel" id="panel-rules">
+    <div class="sec">
+      <div class="sec-head" onclick="toggleSec(this)">
+        <div class="sec-label">
+          <span class="sec-icon">📐</span>
+          <div>
+            <div class="sec-title">第一階段：理解架構（規則 1–4）</div>
+            <div class="sec-subtitle">書在談什麼？</div>
+          </div>
+        </div>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="sec-body">
+        <ul class="rules-list">
+          <li><span class="rule-num">1</span>用簡短的一兩句話說出這本書在談什麼（主題分類）</li>
+          <li><span class="rule-num">2</span>按照順序與關係，列出全書的大綱（架構分析）</li>
+          <li><span class="rule-num">3</span>找出作者想問的是哪些問題</li>
+          <li><span class="rule-num">4</span>找出作者解決了哪些問題，哪些沒解決</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head" onclick="toggleSec(this)">
+        <div class="sec-label">
+          <span class="sec-icon">🔍</span>
+          <div>
+            <div class="sec-title">第二階段：詮釋內容（規則 5–8）</div>
+            <div class="sec-subtitle">作者說了什麼？怎麼說的？</div>
+          </div>
+        </div>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="sec-body">
+        <ul class="rules-list">
+          <li><span class="rule-num">5</span>找出關鍵字，與作者達成共識（詞義理解）</li>
+          <li><span class="rule-num">6</span>由最重要的句子中，找出作者的主要主張</li>
+          <li><span class="rule-num">7</span>找出作者的論述：以相關句子建構論點</li>
+          <li><span class="rule-num">8</span>找出哪些問題已解決，哪些尚未解決</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head" onclick="toggleSec(this)">
+        <div class="sec-label">
+          <span class="sec-icon">⚖️</span>
+          <div>
+            <div class="sec-title">第三階段：批判評估（規則 9–15）</div>
+            <div class="sec-subtitle">說得有道理嗎？</div>
+          </div>
+        </div>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="sec-body">
+        <div class="quote">「在你說你同意、不同意或暫緩評論之前，你一定要能肯定地說：我了解了。」</div>
+        <div class="def">
+          <div class="def-term">評論的禮節</div>
+          <div class="def-desc">先完全理解，再批評。批評需要理由，不能情緒化。</div>
+        </div>
+        <ul class="rules-list">
+          <li><span class="rule-num">9</span>在說作者有何處錯誤之前，先完全了解他的意思</li>
+          <li><span class="rule-num">10</span>不要爭強好辯，也不要輕易讓步（理性討論）</li>
+          <li><span class="rule-num">11</span>尊重知識與個人觀點的差異</li>
+          <li><span class="rule-num">12</span>若要批評，需指出：作者資訊不足</li>
+          <li><span class="rule-num">13</span>若要批評，需指出：作者資訊錯誤</li>
+          <li><span class="rule-num">14</span>若要批評，需指出：作者論述不合邏輯</li>
+          <li><span class="rule-num">15</span>若要批評，需指出：作者的分析不夠完整</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 書的類型 -->
+  <div class="panel" id="panel-types">
+    <div class="sec">
+      <div class="sec-head" onclick="toggleSec(this)">
+        <div class="sec-label">
+          <span class="sec-icon">📚</span>
+          <div>
+            <div class="sec-title">論說性著作（Expository）</div>
+            <div class="sec-subtitle">以傳遞知識為目的</div>
+          </div>
+        </div>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="sec-body">
+        <div class="def">
+          <div class="def-term">實用性書籍</div>
+          <div class="def-desc">教你「如何做」。閱讀時要問：這本書的目的是什麼？作者提出的方法是否合理？我同意嗎？如果同意，我要如何實踐？</div>
+        </div>
+        <div class="def">
+          <div class="def-term">理論性書籍</div>
+          <div class="def-desc">告訴你「事情是什麼」。包含歷史、科學、哲學、數學。閱讀時要抓住作者的核心主張與論證，判斷推論是否成立。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head" onclick="toggleSec(this)">
+        <div class="sec-label">
+          <span class="sec-icon">🎭</span>
+          <div>
+            <div class="sec-title">想像性文學（Imaginative）</div>
+            <div class="sec-subtitle">小說、詩歌、戲劇</div>
+          </div>
+        </div>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="sec-body">
+        <div class="def-desc" style="margin-bottom:10px">閱讀方式與論說性著作截然不同。</div>
+        <ul class="rules-list">
+          <li><span class="rule-num">①</span>不要抗拒文學作品帶給你的影響——先讓它打動你</li>
+          <li><span class="rule-num">②</span>找出虛構世界的結構：情節、人物、衝突、場景</li>
+          <li><span class="rule-num">③</span>感受作者如何透過細節傳達意義，而非尋找命題</li>
+        </ul>
+        <div class="quote">「小說沒有在下命題，它在展示一個世界。你的任務是進入那個世界，而非評判它。」</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head" onclick="toggleSec(this)">
+        <div class="sec-label">
+          <span class="sec-icon">📜</span>
+          <div>
+            <div class="sec-title">歷史、科學、哲學的讀法</div>
+            <div class="sec-subtitle">各有側重</div>
+          </div>
+        </div>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="sec-body">
+        <div class="def">
+          <div class="def-term">歷史書</div>
+          <div class="def-desc">記住：敘事本身就是詮釋。要問：作者的取捨是什麼？哪些事件被忽略？</div>
+        </div>
+        <div class="def">
+          <div class="def-term">科學書</div>
+          <div class="def-desc">不需要全懂實驗細節，但要理解實驗的意義與結論。科學書讀的是「論證方式」。</div>
+        </div>
+        <div class="def">
+          <div class="def-term">哲學書</div>
+          <div class="def-desc">找出核心問題，順著作者的思路走。哲學書需要最大的耐心——不要在第一遍就批評。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 核心洞見 -->
+  <div class="panel" id="panel-insights">
+    <div class="insight">
+      <div class="insight-label">閱讀的終極目的</div>
+      <div class="insight-text">閱讀的最高目標不是「讀完更多書」，而是透過閱讀不斷地提升自己的理解力與判斷力。一個真正善於閱讀的人，讀的書不一定多，但每本書都讀得更深。</div>
+    </div>
+    <div class="insight">
+      <div class="insight-label">主動性是關鍵</div>
+      <div class="insight-text">閱讀不是被動接收資訊，而是主動提問、主動尋找答案。好的讀者像一個偵探，帶著問題走進一本書，用作者的論述來回答這些問題。</div>
+    </div>
+    <div class="insight">
+      <div class="insight-label">層次決定收穫</div>
+      <div class="insight-text">大多數人的閱讀停在「基礎」或「檢視」層次。只有上升到「分析」層次，才能真正與作者對話，獲得知識上的增長，而不只是資訊的堆疊。</div>
+    </div>
+    <div class="insight">
+      <div class="insight-label">批評要在理解之後</div>
+      <div class="insight-text">許多讀者在還沒真正理解作者意思的時候，就急著反對或贊同。正確的順序是：先完全理解（包括用自己的話複述），再進行批判性思考。</div>
+    </div>
+    <div class="insight">
+      <div class="insight-label">不是所有書都值得精讀</div>
+      <div class="insight-text">用檢視閱讀快速判斷，只對值得的書投入分析閱讀。大多數書只需要略讀；少數幾本真正重要的書，值得反覆精讀。</div>
+    </div>
+  </div>
+
+  <!-- 自我檢核 -->
+  <div class="panel" id="panel-checklist">
+    <div class="tracker" id="tracker-wrap">
+      <div class="tracker-title">讀完一本書後，你能回答以下問題嗎？</div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="prog" style="width:0%"></div></div>
+      <div class="progress-label" id="prog-label">0 / 10 完成</div>
+      <div style="margin-top:12px;">
+        <div class="check-item"><input type="checkbox" onchange="updateProg()"><label class="check-label">我能用一兩句話說出這本書的主題。</label></div>
+        <div class="check-item"><input type="checkbox" onchange="updateProg()"><label class="check-label">我能大致說出全書的架構或章節安排的邏輯。</label></div>
+        <div class="check-item"><input type="checkbox" onchange="updateProg()"><label class="check-label">我能說出作者想回答的核心問題是什麼。</label></div>
+        <div class="check-item"><input type="checkbox" onchange="updateProg()"><label class="check-label">我能找出書中最重要的幾個關鍵詞，並理解作者的用意。</label></div>
+        <div class="check-item"><input type="checkbox" onchange="updateProg()"><label class="check-label">我能用自己的話說出作者的主要論點。</label></div>
+        <div class="check-item"><input type="checkbox" onchange="updateProg()"><label class="check-label">我能說出作者是如何論證他的主張的。</label></div>
+        <div class="check-item"><input type="checkbox" onchange="updateProg()"><label class="check-label">我知道哪些問題作者已回答，哪些沒有回答。</label></div>
+        <div class="check-item"><input type="checkbox" onchange="updateProg()"><label class="check-label">在批評作者之前，我確認自己已完全理解他的意思。</label></div>
+        <div class="check-item"><input type="checkbox" onchange="updateProg()"><label class="check-label">如果我不同意作者，我能說出具體理由（資訊不足、有誤、邏輯問題等）。</label></div>
+        <div class="check-item"><input type="checkbox" onchange="updateProg()"><label class="check-label">讀完這本書，我的理解力有所提升，而不只是多了一些資訊。</label></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toggleSec(head) {
+  const body = head.nextElementSibling;
+  const chevron = head.querySelector('.chevron');
+  body.classList.toggle('open');
+  chevron.classList.toggle('open');
+}
+
+function updateProg() {
+  const total = document.querySelectorAll('.check-item input').length;
+  const checked = document.querySelectorAll('.check-item input:checked').length;
+  document.getElementById('prog').style.width = (checked / total * 100) + '%';
+  document.getElementById('prog-label').textContent = checked + ' / ' + total + ' 完成';
+}
+</script>
